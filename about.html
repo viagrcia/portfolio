@@ -1,62 +1,209 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>About | Vianne</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Freeman&family=Jost:wght@400;500&family=Miss+Fajardose&family=Sancreek&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>About | Vianne | My Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Miss+Fajardose&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script>document.documentElement.classList.add('js');</script>
 </head>
 <body>
-<header class="nav">
-  <a class="logo" href="index.html">Vianne</a>
-  <nav><a href="index.html">Home</a><a class="on" href="about.html">About</a><a href="projects.html">Projects</a><a href="about.html#contact">Contact</a></nav>
-</header>
-<main>
-  <section class="about">
-    <div class="arch"><img src="images/profile.jpg" alt="Portrait of Vianne"></div>
-    <div>
-      <h2>About me</h2>
-      <p>I am an undergraduate student pursuing a Bachelor of Science in Information Technology, with a strong interest and motivation in technology and a passion for turning ideas into practical and creative solutions. I am eager to explore both the technical and creative sides of IT, from developing web-based systems and working with programming to designing user-friendly interfaces and other similar projects.</p>
-      <p>Through various academic projects, I have gained experience with different programming languages and platforms. With these experiences, I remain motivated to gain new knowledge, experiences, and challenges as I continue to develop my skills and explore the many possibilities within the field of technology.</p>
-      <a class="btn" href="resume.pdf" download>Download resume</a>
-    </div>
-  </section>
 
-  <section style="margin-top:4rem">
-    <div class="chips" data-tabs="#tabs">
-      <button class="chip on" data-t="edu">Education</button>
-      <button class="chip" data-t="exp">Experience</button>
-      <button class="chip" data-t="ski">Skills</button>
-      <button class="chip" data-t="blog">Journal</button>
+  <header class="nav">
+    <a class="logo" href="index.html">
+      <span class="lg-i" aria-hidden="true">✦</span>
+      <span class="lg-n">Vianne</span>
+      <span class="lg-p">My Portfolio</span>
+    </a>
+    <nav>
+      <a href="index.html">Home</a>
+      <a class="on" href="about.html">About</a>
+      <a href="projects.html">Projects</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <div class="tools">
+      <div class="search">
+        <input id="q" type="search" placeholder="Search this site" aria-label="Search this site" autocomplete="off">
+        <div class="results" id="res"></div>
+      </div>
+      <input class="lm" type="checkbox" id="lm">
+      <label class="theme" for="lm" title="Light / dark mode">◐</label>
     </div>
-    <div id="tabs">
-      <div class="panel on" id="edu">
-        <div class="item"><b>Bulacan State University</b><small>2023 to present</small><ul><li>Dean's Lister, 3rd year GWA: 1.14 (1st semester), 1.25 (2nd semester)</li><li>Capstone project leadership and research experience</li><li>Gained experience in design, programming, database systems, and web development through coursework and projects</li></ul></div>
-        <div class="item"><b>Immaculate Conception School of Malolos, Senior High School</b><small>2021 to 2023</small><ul><li>Consistently achieved high honors</li><li>Research and capstone experience and leadership</li><li>Digital Team Head for Liturgical Organization</li></ul></div>
-        <div class="item"><b>Immaculate Conception School of Malolos, Metropolis</b><small>2017 to 2021</small><ul><li>Honor Roll from 9th to 10th grade</li><li>Practical Research experience and leadership</li></ul></div>
-        <div class="item"><b>Immaculate Conception School of Malolos</b><small>2011 to 2017</small><ul><li>Received merit cards in MAPEH, Araling Panlipunan, Science, and English</li><li>Consistently earned a spot on the honor roll</li></ul></div>
+  </header>
+
+  <main>
+
+    <!-- INTRO -->
+    <section class="about">
+      <div>
+        <!-- click the stack to bring the next photo forward -->
+        <div class="stack" id="stack">
+          <div class="sc"><img src="images/about-1.jpg" alt="" draggable="false"></div>
+          <div class="sc"><img src="images/about-2.jpg" alt="" draggable="false"></div>
+          <div class="sc"><img src="images/about-3.jpg" alt="" draggable="false"></div>
+          <div class="sc"><img src="images/about-4.jpg" alt="" draggable="false"></div>
+        </div>
+        <p class="hint">Click the photos</p>
       </div>
-      <div class="panel" id="exp">
-        <div class="item"><b>TikTok Affiliate and Content Creator</b><small>2025 to present</small><ul><li>Independently managed an affiliate account promoting makeup and skincare products and earned commissions through referrals</li><li>Created and edited promotional videos</li><li>Managed the account's visual presentation and organized the feed for a cohesive look</li></ul></div>
-        <div class="item"><b>Freelance Project-Based Services</b><small>2024 to 2025</small><ul><li>Managed client communication, requirements, deadlines, and deliverables independently</li><li>Adapted to different project requirements and delivered on time</li><li>Handled pricing, payments, and transactions with clients</li></ul></div>
-        <div class="item"><b>Small Business Owner, Crochet Products</b><small>2022 to 2025</small><ul><li>Managed production, customer communication, orders, and transactions</li><li>Fulfilled custom commissions while learning new designs for client requests</li><li>Promoted products through digital marketing and social media</li></ul></div>
+      <div>
+        <h2 class="rv">About me</h2>
+        <p class="rv">I am an undergraduate student pursuing a Bachelor of Science in Information Technology, with a strong interest and motivation in technology and a passion for turning ideas into practical and creative solutions. I am eager to explore both the technical and creative sides of IT, from developing web-based systems and working with programming to designing user-friendly interfaces and other similar projects.</p>
+        <p class="rv">Through various academic projects, I have gained experience with different programming languages and platforms. With these experiences, I remain motivated to gain new knowledge, experiences, and challenges as I continue to develop my skills and explore the many possibilities within the field of technology.</p>
+        <a class="btn" href="resume.pdf" download>Download resume</a>
       </div>
-      <div class="panel" id="ski">
-        <div class="item"><b>Programming</b><small>Python, Java, PHP, C#</small></div>
-        <div class="item"><b>Web</b><small>HTML, CSS, React</small></div>
-        <div class="item"><b>Database</b><small>MySQL, Firebase, SQL</small></div>
-        <div class="item"><b>Development</b><small>Unity, CRUD, Database Design</small></div>
-        <div class="item"><b>Systems and documentation</b><small>ERD, DFD, Use Case Diagrams</small></div>
-        <div class="item"><b>UI/UX and design</b><small>UI/UX Design, Canva, Kittl, Photoshop, Figma</small></div>
-        <div class="item"><b>Tools</b><small>VS Code, Visual Studio, PyCharm, Eclipse, NetBeans</small></div>
+    </section>
+
+    <!-- TABS (pure CSS: the radio buttons decide which panel shows) -->
+    <section class="tabs">
+
+      <input type="radio" name="tab" id="t-edu" checked>
+      <input type="radio" name="tab" id="t-exp">
+      <input type="radio" name="tab" id="t-ski">
+      <input type="radio" name="tab" id="t-blog">
+
+      <div class="chips">
+        <label class="chip" for="t-edu">Education</label>
+        <label class="chip" for="t-exp">Experience</label>
+        <label class="chip" for="t-ski">Skills</label>
+        <label class="chip" for="t-blog">Journal</label>
       </div>
-      <div class="panel" id="blog">
-        <h3>Why technology</h3>
-        <p>Technology has always been an interesting space for me, as I am a curious individual who wants to know the lengths of the modern world and what else there is to be developed. I find the field to be something that always has something new to learn, create, and explore, rather than simply being existing knowledge. As a Bachelor of Science in Information Technology student, I have had the opportunity to discover different areas of IT and, along the way, find the parts that I enjoy the most.</p>
-        <p>One of the things I enjoy about Information Technology is the creativity that comes with it. From something so functional and complex to create, it can turn into something useful and appealing, applying both of my interests. Whether it is developing a website, designing interfaces, organizing databases, creating applications, or even working in game development, each project gives me different opportunities to learn and improve.</p>
-        <p>Throughout my academic journey, I have worked with several programming languages and technologies such as Python, Java, HTML, PHP, SQL, Unity, and UI/UX design. These have allowed me to surpass the limits of what I know rather than keeping my knowledge within a single area. The projects I have created and contributed to have challenged me to think more about functionality and development, whereas others have improved my long-term skills and passion for designing, aesthetics, and enhancing the overall user experience.</p>
-        <p>I am a firm believer that learning does not stop once a project or subject is finished. Thus, through additional training and certifications, including courses from Cisco Networking Academy and the Salesforce Agentblazer Champion Workshop, I have continued to expand my understanding of technology beyond the classroom.</p>
-        <p>As I continue my journey in the field of technology, I am filled with tenacity for gaining more real-world experience, learning from individuals with different perspectives, and taking on challenges that will help me grow and improve. Despite still being in the process of discovering which direction in technology I want to pursue, I am thrilled by the feeling that it brings me. There are so many opportunities to
+
+      <div id="tabs">
+
+        <!-- EDUCATION (school logos: images/logo-bsu.png and images/logo-icsm.png) -->
+        <div class="panel" id="edu">
+
+          <div class="item edu">
+            <img class="sl" src="images/logo-bsu.png" alt="">
+            <div>
+              <b>Bulacan State University</b>
+              <small>2023 to present</small>
+              <ul>
+                <li>Dean's Lister, 3rd year GWA: 1.14 (1st semester), 1.25 (2nd semester)</li>
+                <li>Capstone project leadership and research experience</li>
+                <li>Gained experience in design, programming, database systems, and web development through coursework and projects</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="item edu">
+            <img class="sl" src="images/logo-icsm-shs.png" alt="">
+            <div>
+              <b>Immaculate Conception School of Malolos, Senior High School</b>
+              <small>2021 to 2023</small>
+              <ul>
+                <li>Consistently achieved high honors</li>
+                <li>Research and capstone experience and leadership</li>
+                <li>Digital Team Head for Liturgical Organization</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="item edu">
+            <img class="sl" src="images/logo-icsm-metropolis.png" alt="">
+            <div>
+              <b>Immaculate Conception School of Malolos, Metropolis</b>
+              <small>2017 to 2021</small>
+              <ul>
+                <li>Honor Roll from 9th to 10th grade</li>
+                <li>Practical Research experience and leadership</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="item edu">
+            <img class="sl" src="images/logo-icsm.png" alt="">
+            <div>
+              <b>Immaculate Conception School of Malolos</b>
+              <small>2011 to 2017</small>
+              <ul>
+                <li>Received merit cards in MAPEH, Araling Panlipunan, Science, and English</li>
+                <li>Consistently earned a spot on the honor roll</li>
+              </ul>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- EXPERIENCE -->
+        <div class="panel" id="exp">
+          <div class="item">
+            <b>Small Business Owner for Crochet Products</b>
+            <small>2022 to 2025</small>
+            <ul>
+              <li>Managed the production of products, customer communication, orders, and transactions</li>
+              <li>Fulfilled custom commissions while learning new designs conforming to client requests</li>
+              <li>Promoted products through digital marketing and social media platforms</li>
+            </ul>
+          </div>
+          <div class="item">
+            <b>Freelance Project-Based Services</b>
+            <small>2024 to 2025</small>
+            <ul>
+              <li>Managed client communication, project requirements, deadlines, and deliverables independently</li>
+              <li>Adapted to different project requirements while completing work within the agreed deadlines</li>
+              <li>Handled pricing, payments, and overall transactions with the clients</li>
+            </ul>
+          </div>
+          <div class="item">
+            <b>TikTok Affiliate / Content Creator</b>
+            <small>2025 to present</small>
+            <ul>
+              <li>Independently managed a TikTok affiliate account promoting makeup and skincare products and generated commissions through successful product referrals</li>
+              <li>Created and edited promotional videos for product marketing and affiliate content</li>
+              <li>Managed the account's visual presentation and organized the feed to maintain a cohesive and appealing appearance</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- SKILLS -->
+        <div class="panel" id="ski">
+          <div class="item"><b>Programming</b><small>Python, Java, PHP, C#</small></div>
+          <div class="item"><b>Web</b><small>HTML, CSS, React</small></div>
+          <div class="item"><b>Database</b><small>MySQL, Firebase, SQL</small></div>
+          <div class="item"><b>Development</b><small>Unity, CRUD, Database Design</small></div>
+          <div class="item"><b>Systems &amp; Documentation</b><small>ERD, DFD, Use Case Diagrams</small></div>
+          <div class="item"><b>UI/UX &amp; Design</b><small>UI/UX Design, Canva, Kittl, Photoshop, Figma</small></div>
+          <div class="item"><b>Tools</b><small>VS Code, Visual Studio, PyCharm, Eclipse, NetBeans</small></div>
+        </div>
+
+        <!-- JOURNAL (text on the left, photo on the right: images/journal.jpg) -->
+        <div class="panel" id="blog">
+          <div class="jtext">
+            <p>Technology has always been an interesting space for me, as I am a curious individual who wants to know the lengths of the modern world and what else there is to be developed. I find the field to be something that always has something new to learn, create, and explore, rather than simply being existing knowledge. As a Bachelor of Science in Information Technology student, I have had the opportunity to discover different areas of IT and, along the way, find the parts that I enjoy the most.</p>
+            <p>One of the things I enjoy about Information Technology is the creativity that comes with it. From something so functional and complex to create, it can turn into something useful and appealing, applying both of my interests. Whether it is developing a website, designing interfaces, organizing databases, creating applications, or even working in game development, each project gives me different opportunities to learn and improve.</p>
+            <p>Throughout my academic journey, I have worked with several programming languages and technologies such as Python, Java, HTML, PHP, SQL, Unity, and UI/UX design. These have allowed me to surpass the limits of what I know rather than keeping my knowledge within a single area. The projects I have created and contributed to have challenged me to think more about functionality and development, whereas others have improved my long-term skills and passion for designing, aesthetics, and enhancing the overall user experience.</p>
+            <p>I am a firm believer that learning does not stop once a project or subject is finished. Thus, through additional training and certifications, including courses from Cisco Networking Academy and the Salesforce Agentblazer Champion Workshop, I have continued to expand my understanding of technology beyond the classroom.</p>
+            <p>As I continue my journey in the field of technology, I am filled with tenacity for gaining more real-world experience, learning from individuals with different perspectives, and taking on challenges that will help me grow and improve. Despite still being in the process of discovering which direction in technology I want to pursue, I am thrilled by the feeling that it brings me.</p>
+          </div>
+          <figure class="jphoto">
+            <img src="images/journal.jpg" alt="">
+          </figure>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <p class="ft">Let's make something great together.</p>
+    <p class="fs">Have an opportunity, project, or idea in mind? I’d love to hear from you.</p>
+    <div class="icons">
+      <a class="soc" href="mailto:vianne05garcia@gmail.com" aria-label="Email"><i class="ic ic-mail"></i></a>
+      <a class="soc" href="https://www.linkedin.com/in/viannegrca014/" aria-label="LinkedIn"><i class="ic ic-in"></i></a>
+      <a class="soc" href="https://github.com/viagrcia" aria-label="GitHub"><i class="ic ic-gh"></i></a>
+    </div>
+    <p class="fl">
+      <span class="lg-i" aria-hidden="true">✦</span>
+      <span class="lg-n">Vianne</span>
+      <span class="lg-p">My Portfolio</span>
+    </p>
+  </footer>
+
+      <script src="script.js" defer></script>
+</body>
+</html>

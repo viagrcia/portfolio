@@ -1,10 +1,311 @@
-document.querySelectorAll('a[href$=".html"]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();document.body.classList.add('out');setTimeout(()=>location.href=a.href,280)}));
-addEventListener('pageshow',()=>document.body.classList.remove('out'));
-const on=(g,c,fn)=>g.addEventListener('click',e=>{const b=e.target.closest('.chip');if(!b)return;g.querySelectorAll('.chip').forEach(x=>x.classList.toggle('on',x===b));fn(b)});
-document.querySelectorAll('[data-tabs]').forEach(g=>on(g,0,b=>document.querySelectorAll(g.dataset.tabs+' .panel').forEach(p=>p.classList.toggle('on',p.id===b.dataset.t))));
-document.querySelectorAll('[data-filter]').forEach(g=>on(g,0,b=>document.querySelectorAll('.card').forEach(c=>c.classList.toggle('hide',b.dataset.f!=='all'&&c.dataset.c!==b.dataset.f))));
-const lb=document.getElementById('lb');
-if(lb){document.querySelectorAll('.gallery img').forEach(i=>i.onclick=()=>{lb.firstElementChild.src=i.src;lb.classList.add('on')});
-lb.onclick=()=>lb.classList.remove('on');
-addEventListener('keydown',e=>e.key==='Escape'&&lb.classList.remove('on'))}
-document.querySelectorAll('img').forEach(i=>i.onerror=()=>i.style.opacity=0);
+
+(() => {
+
+  document.documentElement.dataset.ok = '1';   // tells the CSS that this script loaded
+
+  const $  = s => document.querySelector(s);
+  const $$ = s => [...document.querySelectorAll(s)];
+  const run = fn => { try { fn(); } catch (e) { console.error(e); } };
+
+  // safe localStorage (some browsers block it)
+  const store = {
+    get: k => { try { return localStorage.getItem(k); } catch (e) { return null; } },
+    set: (k, v) => { try { localStorage.setItem(k, v); } catch (e) {} }
+  };
+
+
+  /* ---------- 1. PAGE FADE when clicking a link ---------- */
+  run(() => {
+    $$('a[href$=".html"]').forEach(a => {
+      a.addEventListener('click', e => {
+        e.preventDefault();
+        document.body.classList.add('out');
+        setTimeout(() => location.href = a.href, 280);
+      });
+    });
+    addEventListener('pageshow', () => document.body.classList.remove('out'));
+  });
+
+
+  /* ---------- 2. REMEMBER LIGHT / DARK CHOICE ---------- */
+  run(() => {
+    const box = $('#lm');
+    if (!box) return;
+
+    box.checked = store.get('theme') === 'light';
+    box.addEventListener('change', () => store.set('theme', box.checked ? 'light' : 'dark'));
+  });
+
+
+  /* ---------- 3. DESIGN GALLERIES: larger view with arrows ----------
+     Each gallery (graphic, Figma) browses only its own photos. */
+  run(() => {
+    const lb = $('#lb');
+    if (!lb) return;
+
+    const big = lb.querySelector('img');
+    let group = [];
+    let now = 0;
+
+    const show = i => {
+      now = (i + group.length) % group.length;
+      big.src = group[now].src;   // uses the photo's current address
+      lb.classList.add('on');
+    };
+
+    $$('.gallery').forEach(g => {
+      const list = [...g.querySelectorAll('img')];
+      list.forEach((img, i) => {
+        // the photo sits inside a link; we take over its click
+        img.parentElement.addEventListener('click', e => {
+          e.preventDefault();
+          group = list;
+          show(i);
+        });
+      });
+    });
+
+    lb.querySelectorAll('.lb-b').forEach(b =>
+      b.addEventListener('click', e => {
+        e.stopPropagation();
+        show(now + Number(b.dataset.d));
+      })
+    );
+
+    lb.addEventListener('click', () => lb.classList.remove('on'));
+
+    addEventListener('keydown', e => {
+      if (!lb.classList.contains('on')) return;
+      if (e.key === 'Escape') lb.classList.remove('on');
+      if (e.key === 'ArrowRight') show(now + 1);
+      if (e.key === 'ArrowLeft') show(now - 1);
+    });
+  });
+
+
+  /* ---------- 4. ABOUT: CLICKABLE PHOTO STACK ---------- */
+  run(() => {
+    const stack = $('#stack');
+    if (!stack) return;
+
+    const cards = [...stack.children];
+    let front = 0;
+
+    const place = () => cards.forEach((c, i) =>
+      c.style.setProperty('--p', (i - front + cards.length) % cards.length)
+    );
+
+    stack.addEventListener('click', () => {
+      front = (front + 1) % cards.length;
+      place();
+    });
+
+    place();
+  });
+
+
+  /* ---------- 5. HOME: HANGING ID CARD (pendulum physics) ----------
+     Hovering gives it a push, moving the mouse across it nudges it,
+     and dragging lets you swing it yourself. */
+  run(() => {
+    const id = $('#id');
+    if (!id || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    const wrap = id.parentElement;
+    let angle = 0.4;
+    let speed = 0;
+    let dragging = false;
+    let last = performance.now();
+
+    const pivot = () => {
+      const r = wrap.getBoundingClientRect();
+      return { x: r.left + r.width / 2, y: r.top - 80 };
+    };
+
+    id.addEventListener('pointerenter', e => {
+      const r = id.getBoundingClientRect();
+      const dir = e.clientX < r.left + r.width / 2 ? 1 : -1;
+      speed += dir * (3 + Math.random() * 2);
+    });
+
+    id.addEventListener('pointerdown', e => {
+      dragging = true;
+      id.setPointerCapture(e.pointerId);
+    });
+
+    id.addEventListener('pointermove', e => {
+      if (dragging) {
+        const p = pivot();
+        const next = Math.atan2(-(e.clientX - p.x), Math.max(e.clientY - p.y, 60));
+        speed = (next - angle) * 30;
+        angle = Math.max(-1.2, Math.min(1.2, next));
+      } else {
+        speed -= Math.max(-1, Math.min(1, e.movementX)) * 0.25;   // nudge
+      }
+    });
+
+    const drop = () => dragging = false;
+    id.addEventListener('pointerup', drop);
+    id.addEventListener('pointercancel', drop);
+
+    (function loop(now) {
+      const dt = Math.min((now - last) / 1000, 0.03);
+      last = now;
+
+      if (!dragging) {
+        speed += (-16 * Math.sin(angle) - 0.9 * speed) * dt;   // gravity and friction
+        speed = Math.max(-8, Math.min(8, speed));
+        angle += speed * dt;
+        if (Math.abs(angle) > 1.2) {                            // bounce off the limit
+          angle = Math.sign(angle) * 1.2;
+          speed *= -0.5;
+        }
+      }
+
+      id.style.transform = `rotate(${angle}rad)`;
+      requestAnimationFrame(loop);
+    })(last);
+  });
+
+
+  /* ---------- 6. TEXT TRANSITIONS ---------- */
+  run(() => {
+    // hero title: words rise in one by one
+    $$('[data-words]').forEach(el => {
+      el.innerHTML = el.textContent.trim().split(' ')
+        .map((w, i) => `<span class="w" style="animation-delay:${0.3 + i * 0.12}s">${w}</span>`)
+        .join(' ');
+    });
+
+    // scroll reveal. threshold 0 means "as soon as one pixel is near the
+    // screen", so very tall cards can never get stuck invisible
+    const seen = new IntersectionObserver(entries => {
+      entries.forEach(en => {
+        if (en.isIntersecting) {
+          en.target.classList.add('show');
+          seen.unobserve(en.target);
+        }
+      });
+    }, { threshold: 0, rootMargin: '0px 0px -8% 0px' });
+
+    $$('.rv').forEach(el => {
+      const siblings = [...el.parentElement.children].filter(c => c.classList.contains('rv'));
+      el.style.transitionDelay = siblings.indexOf(el) * 0.12 + 's';
+      seen.observe(el);
+    });
+  });
+
+
+  /* ---------- 7. GRUNGE EXTRAS: mouse spotlight and scroll bar ---------- */
+  run(() => {
+    const root = document.documentElement;
+
+    addEventListener('mousemove', e => {
+      root.style.setProperty('--mx', e.clientX + 'px');
+      root.style.setProperty('--my', e.clientY + 'px');
+    });
+
+    const bar = document.createElement('div');
+    bar.className = 'bar';
+    document.body.appendChild(bar);
+
+    addEventListener('scroll', () => {
+      const max = root.scrollHeight - innerHeight;
+      bar.style.transform = `scaleX(${max > 0 ? scrollY / max : 0})`;
+    }, { passive: true });
+  });
+
+
+  /* ---------- 8. SEARCH ----------
+     To make something searchable, add a line: [title, page, keywords] */
+  run(() => {
+        const pages = [
+      ['About me', 'about.html', 'bachelor information technology student bsit undergraduate resume'],
+      ['Education: Bulacan State University', 'about.html', "dean's lister gwa capstone 2023 bulsu"],
+      ['Education: Immaculate Conception School of Malolos', 'about.html', 'senior high school honors metropolis icsm'],
+      ['Experience: Small business owner, crochet products', 'about.html', 'crochet orders commissions social media'],
+      ['Experience: Freelance project-based services', 'about.html', 'client deadlines pricing payments'],
+      ['Experience: TikTok affiliate and content creator', 'about.html', 'makeup skincare videos editing commissions'],
+      ['Skills', 'about.html', 'python java php c# html css react mysql firebase sql unity figma canva photoshop kittl tools'],
+      ['Journal: Why technology', 'about.html', 'blog cisco salesforce agentblazer certifications learning'],
+      ['Stray Animals Management System', 'projects.html', 'capstone php mysql html css uiux erd dfd website'],
+      ['Pocket Paws', 'projects.html', 'game unity 2d sprites trailer firebase'],
+      ['Graphic design', 'projects.html#graphic', 'canva kittl photoshop poster gallery pdf'],
+      ['Figma work', 'projects.html#figma', 'ui ux design figma prototype gallery pdf'],
+      ['Web development', 'index.html', 'what i do html css php mysql'],
+      ['UI/UX and graphic design', 'index.html', 'what i do figma canva kittl photoshop'],
+      ['Database design', 'index.html', 'what i do mysql entities relationships data models'],
+      ['Game development', 'index.html', 'what i do unity 2d 3d games'],
+      ['System analysis and documentation', 'index.html', 'what i do erd dfd use case diagram requirements planning'],
+      ['Front-end development', 'index.html', 'what i do html css ui ux interface'],
+      ['Contact', 'contact.html', 'email linkedin github hello reach']
+    ];
+
+    const box = $('#q');
+    const out = $('#res');
+
+    box.addEventListener('input', () => {
+      const words = box.value.toLowerCase().split(/\s+/).filter(Boolean);
+      if (!words.length) return out.classList.remove('on');
+
+      const hits = pages.filter(([t, , k]) =>
+        words.every(w => (t + ' ' + k).toLowerCase().includes(w))
+      );
+
+      out.innerHTML = hits.length
+        ? hits.map(([t, u]) => `<a href="${u}">${t}<small>${u.replace('.html', '')}</small></a>`).join('')
+        : '<p>No results found. Try another word.</p>';
+      out.classList.add('on');
+    });
+
+    document.addEventListener('click', e => {
+      if (!e.target.closest('.search')) out.classList.remove('on');
+    });
+    box.addEventListener('keydown', e => e.key === 'Escape' && out.classList.remove('on'));
+  });
+
+
+    /* ---------- 9. IMAGES: find the right file type, then hide ----------
+     If images/figma-1.jpg is missing but figma-1.png (or .jpeg, .webp...)
+     exists, the page finds it. Missing files are listed in the console (F12). */
+  run(() => {
+    const types = ['jpg', 'jpeg', 'png', 'webp', 'avif', 'gif', 'jfif', 'JPG', 'JPEG', 'PNG', 'WEBP'];
+    const fixing = new WeakSet();
+
+    const probe = url => new Promise(ok => {
+      const p = new Image();
+      p.onload = () => ok(true);
+      p.onerror = () => ok(false);
+      p.src = url;
+    });
+
+    const fix = async img => {
+      if (fixing.has(img)) return;
+      fixing.add(img);
+
+      const src = img.getAttribute('src');
+      const base = src.replace(/\.\w+$/, '');
+
+      for (const t of types) {
+        const url = base + '.' + t;
+        if (url === src) continue;
+        if (await probe(url)) {
+          img.src = url;
+          const a = img.closest('a');
+          if (a && a.getAttribute('href') === src) a.setAttribute('href', url);
+          return;
+        }
+      }
+
+      console.warn('Image not found:', src);
+      img.style.opacity = 0;
+    };
+
+    $$('img').forEach(img => {
+      if (!img.getAttribute('src')) return;               // skip the empty popup image
+      img.addEventListener('error', () => fix(img));
+      if (img.complete && img.naturalWidth === 0) fix(img);   // already failed before this ran
+    });
+  });
+
+})();

@@ -1,45 +1,186 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Vianne | Portfolio</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Freeman&family=Jost:wght@400;500&family=Miss+Fajardose&family=Sancreek&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Vianne | My Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Miss+Fajardose&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script>document.documentElement.classList.add('js');</script>
 </head>
 <body>
-<header class="nav">
-  <a class="logo" href="index.html">Vianne</a>
-  <nav><a class="on" href="index.html">Home</a><a href="about.html">About</a><a href="projects.html">Projects</a><a href="about.html#contact">Contact</a></nav>
-</header>
-<main>
-  <section class="hero">
-    <span class="bg" aria-hidden="true">PORTFOLIO</span>
-    <div>
-      <span class="hi">Hello, I am Vianne</span>
-      <h1>Building with code, designing with purpose</h1>
-      <p>Information Technology student who builds web systems, games, and designs.</p>
-      <a class="btn" href="projects.html">See my projects</a>
-      <a class="btn ghost" href="about.html">About me</a>
+
+  <header class="nav">
+    <a class="logo" href="index.html">
+      <span class="lg-i" aria-hidden="true">✦</span>
+      <span class="lg-n">Vianne</span>
+      <span class="lg-p">My Portfolio</span>
+    </a>
+    <nav>
+      <a class="on" href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="projects.html">Projects</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <div class="tools">
+      <div class="search">
+        <input id="q" type="search" placeholder="Search this site" aria-label="Search this site" autocomplete="off">
+        <div class="results" id="res"></div>
+      </div>
+      <!-- light / dark switch: works with CSS only -->
+      <input class="lm" type="checkbox" id="lm">
+      <label class="theme" for="lm" title="Light / dark mode">◐</label>
     </div>
-    <div class="arch"><img src="images/profile.jpg" alt="Portrait of Vianne"></div>
-  </section>
-  <div class="marq" aria-hidden="true"><div>
-    <span>PYTHON</span><i>*</i><span>JAVA</span><i>*</i><span>PHP</span><i>*</i><span>HTML</span><i>*</i><span>CSS</span><i>*</i><span>REACT</span><i>*</i><span>MYSQL</span><i>*</i><span>UNITY</span><i>*</i><span>FIGMA</span><i>*</i>
-    <span>PYTHON</span><i>*</i><span>JAVA</span><i>*</i><span>PHP</span><i>*</i><span>HTML</span><i>*</i><span>CSS</span><i>*</i><span>REACT</span><i>*</i><span>MYSQL</span><i>*</i><span>UNITY</span><i>*</i><span>FIGMA</span><i>*</i>
-  </div></div>
-  <section class="doors">
-    <a class="door" href="about.html"><h3>About me</h3><span>Education, experience, and skills</span></a>
-    <a class="door" href="projects.html"><h3>Projects</h3><span>Web systems, a game, and design work</span></a>
-    <a class="door" href="about.html#contact"><h3>Contact</h3><span>Email, LinkedIn, and GitHub</span></a>
-  </section>
-</main>
-<footer>
-  <a href="mailto:vianne05garcia@gmail.com">Email</a><a href="https://www.linkedin.com/in/viannegrca014/">LinkedIn</a><a href="https://github.com/viagrcia">GitHub</a>
-  <p>&copy; 2026 Vianne</p>
-</footer>
-<script src="script.js"></script>
+  </header>
+
+  <main class="full">
+
+    <!-- HERO -->
+    <div class="wrap">
+      <section class="hero">
+        <span class="bg" aria-hidden="true">Portfolio</span>
+        <div>
+          <span class="hi">Hello, I am Vianne</span>
+          <h1 data-words>Building with code, designing with purpose</h1>
+          <a class="btn" href="projects.html">See my projects</a>
+          <a class="btn ghost" href="about.html">About me</a>
+        </div>
+
+        <!-- hanging ID card: hover it, drag it -->
+        <div class="idwrap">
+          <div class="id" id="id">
+            <div class="strap"></div>
+            <div class="clip"></div>
+            <div class="holder">
+              <div class="idcard">
+                <small><span>PORTFOLIO</span><span>BSIT</span></small>
+                <div class="photo"><img src="images/profile.jpg" alt="" draggable="false"></div>
+                <b>Vianne Garcia</b>
+                Web Developer &amp; Designer
+                <small><span>ID 2023-0001</span><span>BulSU</span></small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- MOVING GALLERY: landscape photos, two fill the screen width.
+         The set is repeated twice so the loop never jumps. -->
+    <div class="strip" aria-hidden="true">
+      <div class="track">
+        <div class="set">
+          <div class="slide"><img src="images/gallery-1.jpg" alt=""></div>
+          <div class="slide"><img src="images/gallery-2.jpg" alt=""></div>
+          <div class="slide"><img src="images/gallery-3.jpg" alt=""></div>
+          <div class="slide"><img src="images/gallery-4.jpg" alt=""></div>
+        </div>
+        <div class="set">
+          <div class="slide"><img src="images/gallery-1.jpg" alt=""></div>
+          <div class="slide"><img src="images/gallery-2.jpg" alt=""></div>
+          <div class="slide"><img src="images/gallery-3.jpg" alt=""></div>
+          <div class="slide"><img src="images/gallery-4.jpg" alt=""></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- EXPLORE (scroll sideways) -->
+    <div class="wrap wide">
+      <section>
+        <h2 class="rv">Explore</h2>
+        <div class="arrows">
+          <button onclick="document.getElementById('pcards').scrollBy({left:-560,behavior:'smooth'})" aria-label="Scroll left">←</button>
+          <button onclick="document.getElementById('pcards').scrollBy({left:560,behavior:'smooth'})" aria-label="Scroll right">→</button>
+        </div>
+        <div class="pcards" id="pcards">
+
+          <a class="pcard" href="about.html">
+            <img src="images/home-about.jpg" alt="">
+            <div>
+              <h3>About me</h3>
+              <p>Who I am, where I studied, and what I am good at.</p>
+            </div>
+          </a>
+
+          <a class="pcard" href="projects.html">
+            <img src="images/home-projects.jpg" alt="">
+            <div>
+              <h3>Projects</h3>
+              <p>Web systems, a game, and design work.</p>
+            </div>
+          </a>
+
+          <a class="pcard" href="contact.html">
+            <img src="images/home-contact.jpg" alt="">
+            <div>
+              <h3>Contact</h3>
+              <p>Email, LinkedIn, and GitHub.</p>
+            </div>
+          </a>
+
+        </div>
+      </section>
+    </div>
+
+        <!-- WHAT I DO -->
+    <div class="wrap">
+      <section>
+        <h2 class="rv">What I do</h2>
+        <div class="do">
+
+          <div class="item rv">
+            <h3>Web development</h3>
+            <p>I build web-based systems with HTML, CSS, PHP, and MySQL, from the database up to the interfaces that people use. I am eager to work on both the functionality and presentation of a system, ensuring that it is not only functional but also easy to utilize.</p>
+          </div>
+
+          <div class="item rv">
+            <h3>UI/UX and graphic design</h3>
+            <p>I design interfaces and visuals using Figma, Canva, Kittl, and Photoshop, focusing on clean and user-friendly layouts. I explore multiple design ideas, and continuously look for ways to make digital experiences more organized, appealing, and easier to navigate.</p>
+          </div>
+
+          <div class="item rv">
+            <h3>Database design</h3>
+            <p>I can organize databases using MySQL, from identifying entities and relationships to creating data models that will support a system. I am capable of turning information into structured and manageable data that can work effectively behind an application.</p>
+          </div>
+
+          <div class="item rv">
+            <h3>Game development</h3>
+            <p>I create 2D and 3D games in Unity. I am capable of combining my skills with creativity and applying my programming knowledge in order to turn ideas into interactive experiences.</p>
+          </div>
+
+          <div class="item rv">
+            <h3>System analysis and documentation</h3>
+            <p>I work on the planning and documentation behind systems, including ERD, DFD, Use Case Diagrams, and other system-related documentation. Organizing ideas and translating system requirements into something that can be clearly understood and developed is something that I am fond of.</p>
+          </div>
+
+          <div class="item rv">
+            <h3>Front-end development</h3>
+            <p>I work on the front-end side of applications, focusing on how users interact with and experience a system. I combine HTML, CSS, UI/UX principles, and various design elements in order to create interfaces that are both functional and visually appealing.</p>
+          </div>
+
+        </div>
+      </section>
+    </div>
+
+  </main>
+
+  <footer>
+    <p class="ft">Let's make something great together.</p>
+    <p class="fs">Have an opportunity, project, or idea in mind? I’d love to hear from you.</p>
+    <div class="icons">
+      <a class="soc" href="mailto:vianne05garcia@gmail.com" aria-label="Email"><i class="ic ic-mail"></i></a>
+      <a class="soc" href="https://www.linkedin.com/in/viannegrca014/" aria-label="LinkedIn"><i class="ic ic-in"></i></a>
+      <a class="soc" href="https://github.com/viagrcia" aria-label="GitHub"><i class="ic ic-gh"></i></a>
+    </div>
+    <p class="fl">
+      <span class="lg-i" aria-hidden="true">✦</span>
+      <span class="lg-n">Vianne</span>
+      <span class="lg-p">My Portfolio</span>
+    </p>
+  </footer>
+
+  <script src="script.js"></script>
 </body>
 </html>

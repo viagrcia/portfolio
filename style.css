@@ -1,20 +1,32 @@
 /* ==========================================================
    1. COLORS AND FONTS
-   Change colors and fonts here and the whole site updates
+   Dark mode is the default. Light mode is switched on by the
+   ◐ button and only overrides the variables below.
    ========================================================== */
 :root {
-  --ink: #080305;      /* near-black background */
-  --blk: #0e0709;      /* black cards and panels */
-  --wine: #5a0a1a;     /* deep burgundy */
-  --red: #b3122f;      /* bright crimson accent */
-  --silver: #cfcaca;   /* gray text and borders */
-  --ivory: #f6f0f0;    /* white text */
+  --ink: #080305;       /* page background */
+  --blk: #0e0709;       /* cards and panels */
+  --wine: #5a0a1a;      /* deep burgundy */
+  --red: #b3122f;       /* crimson accent */
+  --silver: #cfcaca;    /* secondary text */
+  --ivory: #f6f0f0;     /* main text */
+  --line: #ffffff26;    /* thin borders */
+  --nav-bg: #080305cc;  /* navigation bar */
+  --glow: #b3122f99;    /* red glow */
 
-  --head: 'Freeman', sans-serif;           /* big headings */
-  --script: 'Miss Fajardose', cursive;     /* calligraphy name */
-  --west: 'Sancreek', serif;               /* logo */
-  --serif: 'Cormorant Garamond', serif;    /* body text */
-  --ui: 'Jost', sans-serif;                /* buttons, nav, small text */
+  --script: 'Miss Fajardose', cursive;   /* calligraphy: titles */
+  --serif: 'Cormorant Garamond', serif;  /* everything else */
+}
+
+/* LIGHT MODE (when the ◐ checkbox is ticked) */
+:root:has(#lm:checked) {
+  --ink: #f7eeee;
+  --blk: #ffffff;
+  --silver: #5c4a4e;
+  --ivory: #2a0a12;
+  --line: #5a0a1a33;
+  --nav-bg: #f7eeeecc;
+  --glow: #b3122f44;
 }
 
 
@@ -38,17 +50,21 @@ html {
 
 body {
   background:
-    radial-gradient(ellipse at 15% 0, #7a0f24, transparent 55%),
-    radial-gradient(ellipse at 100% 75%, #5a0a1a, transparent 50%),
-    var(--ink) fixed;
+    radial-gradient(ellipse at 15% 0, #7a0f24, transparent 40%) no-repeat,
+    var(--ink);
   color: var(--ivory);
-  font: 1.2rem/1.7 var(--serif);
+  font: 1.25rem/1.7 var(--serif);
   min-height: 100vh;
   overflow-x: hidden;
-  transition: opacity 0.3s;
+  transition: opacity 0.3s, background-color 0.4s, color 0.4s;
 }
 
-/* fades the page out when you click a link */
+:root:has(#lm:checked) body {
+  background:
+    radial-gradient(ellipse at 15% 0, #e7b3bd, transparent 40%) no-repeat,
+    var(--ink);
+}
+
 body.out {
   opacity: 0;
 }
@@ -64,59 +80,144 @@ img {
 
 
 /* ==========================================================
-   3. HEADINGS
+   3. GRUNGE LAYERS
+   - film grain over the whole site (delete body::after to remove)
+   - red spotlight that follows the mouse (JS sets --mx/--my)
+   - red scroll bar at the very top (JS creates .bar)
    ========================================================== */
-h1,
-h2,
-h3 {
-  font-family: var(--head);
-  font-weight: 400;
-  line-height: 1;
-  letter-spacing: 0.02em;
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0.09;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
-h1 {
-  font-size: clamp(2.6rem, 6.5vw, 5rem);
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: radial-gradient(circle 320px at var(--mx, 50%) var(--my, 30%), #b3122f22, transparent);
 }
 
-h2 {
-  font-size: clamp(2.8rem, 7vw, 5rem);
-  margin-bottom: 1.2rem;
-  text-shadow: 4px 4px 0 var(--red);
-}
-
-h3 {
-  font-size: 1.9rem;
-  margin-bottom: 0.5rem;
+.bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  z-index: 70;
+  background: var(--red);
+  transform: scaleX(0);
+  transform-origin: left;
 }
 
 
 /* ==========================================================
-   4. NAVIGATION BAR
+   4. HEADINGS
+   h2 = calligraphy with a red brush stroke underneath.
+   h1 and h3 = serif.
+   ========================================================== */
+h1,
+h3 {
+  font-family: var(--serif);
+  font-weight: 600;
+  line-height: 1.15;
+}
+
+h1 {
+  font-size: clamp(1.8rem, 3vw, 2.6rem);
+}
+
+h2 {
+  font: 400 clamp(3.6rem, 8vw, 6rem) / 1.05 var(--script);
+  margin-bottom: 1.4rem;
+  text-shadow: 0 0 26px var(--glow);
+}
+
+h2::after {
+  content: '';
+  display: block;
+  width: min(240px, 50%);
+  height: 10px;
+  margin-top: 0.3rem;
+  background: var(--red);
+  clip-path: polygon(0 35%, 6% 0, 100% 20%, 95% 100%, 4% 80%);
+  transform-origin: left;
+  transition: transform 0.9s 0.4s cubic-bezier(.2, .7, .2, 1);
+}
+
+.js h2.rv:not(.show)::after {
+  transform: scaleX(0);
+}
+
+.end h2::after {
+  margin-inline: auto;
+}
+
+h3 {
+  font-size: 1.5rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 0.6rem;
+}
+
+
+/* ==========================================================
+   5. NAVIGATION BAR, LOGO, SEARCH, THEME BUTTON
    ========================================================== */
 .nav {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
-  padding: 0.9rem 5vw;
+  gap: 0.6rem 1.5rem;
+  padding: 0.7rem 5vw;
   position: sticky;
   top: 0;
-  z-index: 5;
-  background: #080305cc;
+  z-index: 20;
+  background: var(--nav-bg);
   backdrop-filter: blur(10px);
-  border-bottom: 1px solid #ffffff1a;
+  border-bottom: 1px solid var(--line);
 }
 
 .logo {
-  font: 1.5rem var(--west);
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
   text-decoration: none;
+}
+
+/* the moving star (also used in the footer) */
+.lg-i {
+  font-size: 1.6rem;
+  color: var(--red);
+  animation: spin 8s linear infinite;
+}
+
+.lg-n {
+  font: 3rem/1 var(--script);
   color: var(--silver);
+  text-shadow: 0 0 18px var(--glow);
+}
+
+.lg-p {
+  font: italic 1.2rem var(--serif);
+  letter-spacing: 0.12em;
+  color: var(--silver);
+  padding-left: 0.9rem;
+  border-left: 1px solid var(--red);
 }
 
 .nav nav {
   display: flex;
   gap: 1.6rem;
-  font: 1rem var(--ui);
+  font: 600 1.15rem var(--serif);
 }
 
 .nav nav a {
@@ -127,16 +228,141 @@ h3 {
   transition: 0.3s;
 }
 
-/* red underline slides in on hover and on the current page */
 .nav nav a:hover,
 .nav nav a.on {
-  color: #fff;
+  color: var(--ivory);
   background-size: 100% 2px;
+}
+
+.tools {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.search {
+  position: relative;
+}
+
+.search input {
+  font: 1.05rem var(--serif);
+  width: 200px;
+  padding: 0.35rem 1rem;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--ivory);
+  transition: width 0.3s, border-color 0.3s;
+}
+
+.search input:focus {
+  width: 280px;
+  border-color: var(--red);
+  outline: none;
+}
+
+.results {
+  display: none;
+  position: absolute;
+  top: 120%;
+  right: 0;
+  width: 320px;
+  max-height: 60vh;
+  overflow-y: auto;
+  background: var(--blk);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 0.4rem;
+}
+
+.results.on {
+  display: block;
+}
+
+.results a {
+  display: block;
+  padding: 0.5rem 0.8rem;
+  border-radius: 10px;
+  text-decoration: none;
+  line-height: 1.3;
+}
+
+.results a:hover {
+  background: var(--wine);
+  color: #fff;
+}
+
+.results small {
+  display: block;
+  color: var(--silver);
+  font-style: italic;
+}
+
+.results p {
+  padding: 0.5rem 0.8rem;
+  color: var(--silver);
+}
+
+/* light / dark switch: hidden checkbox + the ◐ label */
+.lm {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.theme {
+  display: grid;
+  place-items: center;
+  font-size: 1.3rem;
+  width: 2.4rem;
+  height: 2.4rem;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  color: var(--ivory);
+  cursor: pointer;
+  transition: 0.4s;
+}
+
+.theme:hover {
+  background: var(--red);
+  color: #fff;
+  transform: rotate(180deg);
+}
+
+.lm:focus-visible + .theme {
+  outline: 2px solid var(--red);
+  outline-offset: 3px;
 }
 
 
 /* ==========================================================
-   5. PAGE LAYOUT
+   6. ICONS (email, LinkedIn, GitHub)
+   ========================================================== */
+.ic {
+  display: inline-block;
+  width: 1.6rem;
+  height: 1.6rem;
+  background: currentColor;
+  -webkit-mask: var(--i) center / contain no-repeat;
+  mask: var(--i) center / contain no-repeat;
+}
+
+.ic-mail {
+  --i: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z'/%3E%3Cpath d='m22 6-10 7L2 6'/%3E%3C/svg%3E");
+}
+
+.ic-in {
+  --i: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z'/%3E%3Crect x='2' y='9' width='4' height='12'/%3E%3Ccircle cx='4' cy='4' r='2'/%3E%3C/svg%3E");
+}
+
+.ic-gh {
+  --i: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22'/%3E%3C/svg%3E");
+}
+
+
+/* ==========================================================
+   7. PAGE LAYOUT
    ========================================================== */
 main {
   max-width: 1150px;
@@ -144,96 +370,230 @@ main {
   padding: 3rem 5vw;
 }
 
+main.full {
+  max-width: none;
+  padding: 0;
+}
+
+.wrap {
+  max-width: 1150px;
+  margin: auto;
+  padding: 4rem 5vw;
+}
+
+.wrap.wide {
+  max-width: none;
+  padding-inline: 0;
+}
+
+.wrap.wide > section > h2 {
+  padding-inline: 5vw;
+}
+
 
 /* ==========================================================
-   6. HOME PAGE: HERO
+   8. HOME: HERO
    ========================================================== */
 .hero {
   position: relative;
   display: grid;
   grid-template-columns: 1.25fr 1fr;
   gap: 2rem;
-  align-items: center;
-  min-height: 82vh;
+  align-items: start;
+  min-height: 88vh;
 }
 
-/* giant outlined "PORTFOLIO" word behind everything */
+/* polka dots: only at the left and right EDGES of the screen */
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -2rem;
+  bottom: -2rem;
+  left: 50%;
+  width: 100vw;
+  transform: translateX(-50%);
+  background: radial-gradient(var(--line) 1.4px, transparent 2px) 0 0 / 16px 16px;
+  -webkit-mask: linear-gradient(90deg, #000, transparent 14%, transparent 86%, #000);
+  mask: linear-gradient(90deg, #000, transparent 14%, transparent 86%, #000);
+  pointer-events: none;
+}
+
 .bg {
   position: absolute;
   left: 50%;
-  top: 6%;
+  top: 4%;
   transform: translateX(-50%);
-  font: clamp(5rem, 21vw, 17rem) / 1 var(--head);
-  color: transparent;
-  -webkit-text-stroke: 1px #ffffff2e;
+  font: clamp(7rem, 24vw, 20rem) / 1 var(--script);
+  color: var(--line);
+  opacity: 0.5;
   white-space: nowrap;
   pointer-events: none;
 }
 
-/* hero content fades up when the page loads */
-.hero > * {
+.hero > div:first-of-type {
+  align-self: center;
   position: relative;
-  animation: in 0.9s both;
 }
 
-.hero > .arch {
-  animation-delay: 0.25s;
-}
-
-/* "Hello, I am Vianne" in calligraphy */
 .hi {
   display: block;
-  font: clamp(4rem, 10vw, 7.5rem) / 0.8 var(--script);
+  font: clamp(3.2rem, 7.5vw, 6.4rem) / 1 var(--script);
   color: var(--silver);
-  margin-bottom: -0.15em;
-  position: relative;
-  z-index: 2;
-  text-shadow: 0 0 30px #b3122f99;
+  white-space: nowrap;
+  margin-bottom: 0.3em;
+  text-shadow: 0 0 30px var(--glow);
+  animation: glitch 6s infinite;
 }
 
-.hero p {
-  color: var(--silver);
-  margin: 1.4rem 0 1.6rem;
-  max-width: 34ch;
-  font-size: 1.35rem;
+.hero h1 {
+  margin-bottom: 1.8rem;
+  max-width: 24ch;
 }
 
 
 /* ==========================================================
-   7. PROFILE PHOTO (circle)
+   9. HANGING ID CARD
+   Without JS: it sways by itself and swings harder on hover.
+   With JS: script.js takes over with real pendulum physics.
    ========================================================== */
-.arch {
-  border-radius: 50%;
+.idwrap {
+  justify-self: center;
+  height: 680px;
+  width: 300px;
+  position: relative;
+}
+
+.id {
+  position: absolute;
+  top: -80px;
+  left: 50%;
+  margin-left: -130px;
+  width: 260px;
+  transform-origin: 50% 0;
+  cursor: grab;
+  touch-action: pan-y;
+  user-select: none;
+  animation: sway 5s ease-in-out infinite;
+}
+
+.id:hover {
+  animation: swing 1.4s ease-in-out infinite;
+}
+
+.id:active {
+  cursor: grabbing;
+}
+
+/* once script.js is running, the CSS animation steps aside */
+html[data-ok] .id,
+html[data-ok] .id:hover {
+  animation: none;
+}
+
+.strap {
+  width: 44px;
+  height: 250px;
+  margin: 0 auto;
+  background: linear-gradient(90deg, #3d0712, var(--wine), #3d0712);
+  border-inline: 2px solid #00000055;
+}
+
+.clip {
+  width: 26px;
+  height: 46px;
+  margin: -6px auto 0;
+  border: 4px solid #a9a4a6;
+  border-radius: 0 0 14px 14px;
+  position: relative;
+  z-index: 2;
+}
+
+.holder {
+  margin-top: -14px;
+  padding: 26px 14px 14px;
+  border-radius: 18px;
+  background: #ffffff1f;
+  border: 1px solid #ffffff59;
+  backdrop-filter: blur(2px);
+  box-shadow: 0 30px 60px #00000099, 0 0 60px var(--glow);
+  position: relative;
+}
+
+.holder::before {
+  content: '';
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  width: 46px;
+  height: 8px;
+  margin-left: -23px;
+  border-radius: 8px;
+  background: #00000088;
+}
+
+.idcard {
+  background: #0e0709;
+  color: #cfcaca;
+  border-radius: 10px;
+  padding: 1.2rem;
+  text-align: center;
+  font: 0.95rem/1.4 var(--serif);
+  letter-spacing: 0.1em;
+  position: relative;
   overflow: hidden;
-  aspect-ratio: 1;
-  background: linear-gradient(160deg, var(--red), var(--ink));
+}
+
+.idcard .photo {
+  width: 140px;
+  height: 140px;
+  margin: 0.6rem auto;
+  border-radius: 50%;
   border: 2px solid var(--silver);
-  box-shadow:
-    0 0 0 10px var(--ink),
-    0 0 0 11px var(--red),
-    0 0 90px #b3122f88;
-  transition: transform 0.5s;
+  overflow: hidden;
+  box-shadow: 0 0 0 5px #0e0709, 0 0 0 6px var(--red);
 }
 
-.arch:hover {
-  transform: rotate(-3deg) scale(1.04);
-}
-
-.arch img {
+.photo img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   object-position: center top;
 }
 
+/* full name in calligraphy */
+.idcard b {
+  display: block;
+  font: 400 2.7rem/1 var(--script);
+  color: #fff;
+  letter-spacing: 0;
+  margin: 0.4rem 0 0.3rem;
+}
+
+.idcard small {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+}
+
+.idcard::after {
+  content: '';
+  position: absolute;
+  right: -30px;
+  bottom: 28px;
+  width: 200px;
+  height: 22px;
+  background: #d0102f99;
+  transform: rotate(-32deg);
+}
+
 
 /* ==========================================================
-   8. BUTTONS
+   10. BUTTONS
    ========================================================== */
 .btn {
   display: inline-block;
-  font: 500 1rem var(--ui);
-  padding: 0.85rem 1.9rem;
+  font: 600 1.1rem var(--serif);
+  padding: 0.8rem 1.9rem;
   border-radius: 999px;
   background: var(--red);
   border: 1px solid var(--red);
@@ -247,14 +607,14 @@ main {
 .btn:hover {
   background: var(--ink);
   border-color: var(--silver);
-  color: var(--silver);
-  transform: translateY(-3px);
+  color: var(--ivory);
+  transform: translateY(-3px) rotate(-1deg);
 }
 
-/* black outlined version */
 .btn.ghost {
-  background: #080305;
-  border-color: #ffffff40;
+  background: transparent;
+  border-color: var(--line);
+  color: var(--ivory);
 }
 
 .btn.ghost:hover {
@@ -264,82 +624,197 @@ main {
 
 
 /* ==========================================================
-   9. HOME PAGE: THREE TILES (About / Projects / Contact)
+   11. HOME: MOVING GALLERY (landscape, full screen width)
+   Each photo is half the screen wide, so two fill the view.
+   Speed: change 60s. Photo shape: change 16 / 10.
    ========================================================== */
-.doors {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1.2rem;
-  margin: 1rem 0 3rem;
+.strip {
+  overflow: hidden;
+  margin: 4rem 0 3rem;
+  border-block: 1px solid var(--line);
 }
 
-.door {
+.track {
   display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  min-height: 280px;
-  padding: 2rem;
-  border-radius: 28px;
-  text-decoration: none;
-  background: var(--blk);
-  transition: 0.35s;
+  width: max-content;
+  animation: m 60s linear infinite;
 }
 
-/* tile 1: crimson */
-.door:nth-child(1) {
-  background: linear-gradient(160deg, var(--red), var(--wine));
+.track:hover {
+  animation-play-state: paused;
 }
 
-/* tile 3: white */
-.door:nth-child(3) {
-  background: var(--ivory);
-  color: var(--ink);
+.set {
+  display: flex;
+  gap: 1rem;
+  padding-right: 1rem;
 }
 
-.door h3 {
-  font-size: 2.6rem;
+.slide {
+  flex: none;
+  width: calc(50vw - 0.5rem);
+  aspect-ratio: 16 / 10;
+  background: var(--wine);
+  overflow: hidden;
 }
 
-.door span {
-  font: 1rem var(--ui);
-  color: var(--silver);
+.slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(0.6) contrast(1.1);
+  transition: filter 0.5s, transform 0.8s;
 }
 
-.door:nth-child(3) span {
-  color: #333;
-}
-
-.door:hover {
-  transform: translateY(-8px) rotate(-1deg);
-  box-shadow: 0 20px 50px #b3122f66;
+.slide:hover img {
+  filter: none;
+  transform: scale(1.04);
 }
 
 
 /* ==========================================================
-   10. CORNER BRACKETS (on tiles and project cards)
+   12. HOME: EXPLORE CARDS (scroll sideways)
    ========================================================== */
-.door,
-.card {
-  position: relative;
-  border: 1px solid #ffffff22;
+.pcards {
+  display: flex;
+  gap: 1.5rem;
+  padding: 1rem 5vw 2rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: 5vw;
+  scrollbar-color: var(--red) transparent;
 }
 
-.door::before,
+.pcard {
+  position: relative;
+  flex: 0 0 min(85vw, 520px);
+  height: 600px;
+  display: flex;
+  flex-direction: column;
+  scroll-snap-align: start;
+  border-radius: 28px;
+  overflow: hidden;
+  text-decoration: none;
+  background: var(--blk);
+  transition: transform 0.4s, box-shadow 0.4s;
+}
+
+.pcard:hover {
+  transform: translateY(-10px) rotate(-0.6deg);
+  box-shadow: 0 25px 60px var(--glow);
+}
+
+.pcard img {
+  flex: 0 0 40%;
+  width: 100%;
+  min-height: 0;
+  object-fit: cover;
+  background: linear-gradient(160deg, var(--red), var(--ink));
+  filter: grayscale(0.5);
+  transition: transform 0.7s, filter 0.5s;
+}
+
+.pcard:hover img {
+  transform: scale(1.05);
+  filter: none;
+}
+
+.pcard div {
+  flex: 1;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: var(--blk);
+}
+
+.pcard h3 {
+  font: 400 4.2rem / 1 var(--script);
+  letter-spacing: 0;
+  text-transform: none;
+  text-shadow: 0 0 20px var(--glow);
+}
+
+.pcard p {
+  color: var(--silver);
+  font-size: 1.35rem;
+  line-height: 1.5;
+}
+
+.arrows {
+  display: flex;
+  gap: 0.6rem;
+  padding: 0 5vw;
+}
+
+.arrows button {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--ivory);
+  font-size: 1.3rem;
+  cursor: pointer;
+  transition: 0.25s;
+}
+
+.arrows button:hover {
+  background: var(--red);
+  color: #fff;
+}
+
+
+/* ==========================================================
+   13. HOME: WHAT I DO
+   ========================================================== */
+.do {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
+.do .item p {
+  color: var(--silver);
+}
+
+.end {
+  text-align: center;
+}
+
+.end p {
+  color: var(--silver);
+}
+
+
+/* ==========================================================
+   14. CORNER BRACKETS
+   ========================================================== */
+.pcard,
+.card {
+  border: 1px solid var(--line);
+}
+
+.card {
+  position: relative;
+}
+
+.pcard::before,
 .card::before,
-.door::after,
+.pcard::after,
 .card::after {
   content: '';
   position: absolute;
+  z-index: 2;
   width: 16px;
   height: 16px;
   border: 1px solid var(--silver);
-  opacity: 0.7;
+  opacity: 0.8;
   transition: 0.3s;
   pointer-events: none;
 }
 
-/* top-left corner */
-.door::before,
+.pcard::before,
 .card::before {
   top: 14px;
   left: 14px;
@@ -347,8 +822,7 @@ main {
   border-bottom: 0;
 }
 
-/* bottom-right corner */
-.door::after,
+.pcard::after,
 .card::after {
   bottom: 14px;
   right: 14px;
@@ -356,48 +830,31 @@ main {
   border-top: 0;
 }
 
-/* corners grow on hover */
-.door:hover::before,
-.door:hover::after {
+.pcard:hover::before,
+.pcard:hover::after,
+.card:hover::before,
+.card:hover::after {
   width: 34px;
   height: 34px;
 }
 
 
 /* ==========================================================
-   11. SCROLLING SKILLS TICKER
+   15. TABS (pure CSS)
+   The hidden radio buttons decide which panel is visible.
+   If you rename a tab, change its id in 3 places:
+   the input, the label's "for", and the rules below.
    ========================================================== */
-.marq {
-  overflow: hidden;
-  border-block: 1px solid #ffffff26;
-  padding: 0.8rem 0;
-  margin: 2rem -5vw;
-  background: var(--ink);
+.tabs {
+  margin-top: 4rem;
 }
 
-.marq div {
-  display: flex;
-  gap: 3rem;
-  width: max-content;
-  font: 2rem var(--head);
-  color: var(--silver);
-  animation: m 28s linear infinite;
+.tabs > input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
 }
 
-/* pauses when you hover over it */
-.marq div:hover {
-  animation-play-state: paused;
-}
-
-.marq i {
-  font-style: normal;
-  color: var(--red);
-}
-
-
-/* ==========================================================
-   12. TABS AND FILTER CHIPS
-   ========================================================== */
 .chips {
   display: flex;
   flex-wrap: wrap;
@@ -406,54 +863,131 @@ main {
 }
 
 .chip {
-  font: 0.95rem var(--ui);
-  padding: 0.45rem 1.2rem;
+  display: inline-block;
+  font: 600 1.05rem var(--serif);
+  padding: 0.4rem 1.3rem;
   border-radius: 999px;
-  border: 1px solid #ffffff40;
-  background: var(--ink);
+  border: 1px solid var(--line);
+  background: transparent;
   color: var(--silver);
   cursor: pointer;
+  user-select: none;
   transition: 0.25s;
 }
 
 .chip:hover {
   border-color: var(--silver);
+  transform: translateY(-2px);
 }
 
-/* the selected chip */
-.chip.on {
+/* selected tab button */
+#t-edu:checked ~ .chips [for="t-edu"],
+#t-exp:checked ~ .chips [for="t-exp"],
+#t-ski:checked ~ .chips [for="t-ski"],
+#t-blog:checked ~ .chips [for="t-blog"] {
   background: var(--red);
   border-color: var(--red);
   color: #fff;
 }
 
-/* tab content: hidden until its tab is clicked */
 .panel {
   display: none;
 }
 
-.panel.on {
+/* visible panel */
+#t-edu:checked ~ #tabs #edu,
+#t-exp:checked ~ #tabs #exp,
+#t-ski:checked ~ #tabs #ski,
+#t-blog:checked ~ #tabs #blog {
   display: block;
-  animation: in 0.4s;
+  animation: in 0.5s;
 }
 
 .panel p {
-  margin-bottom: 1rem;
+  margin-bottom: 1.2rem;
   max-width: 68ch;
+  text-align: justify;
+}
+
+/* Journal: text on the left, photo on the right */
+#t-blog:checked ~ #tabs #blog {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 3rem;
+  align-items: start;
+}
+
+.jphoto {
+  position: sticky;
+  top: 6rem;
+  border: 8px solid var(--blk);
+  box-shadow: 0 20px 50px #00000077;
+  transform: rotate(2deg);
+  background: var(--wine);
+}
+
+.jphoto img {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
 }
 
 
 /* ==========================================================
-   13. ABOUT PAGE
+   16. ABOUT PAGE + CLICKABLE PHOTO STACK
+   Stack size: change 520px below.
    ========================================================== */
 .about {
   display: grid;
-  grid-template-columns: 1fr 2fr;
-  gap: 3rem;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 4rem;
   align-items: center;
 }
 
-/* education / experience / skills entries */
+.about p {
+  text-align: justify;
+  margin-bottom: 1.6rem;
+}
+
+.about .hint {
+  text-align: center;
+}
+
+.stack {
+  position: relative;
+  width: min(100%, 520px);
+  aspect-ratio: 3 / 4;
+  margin: 0 auto;
+  cursor: pointer;
+}
+
+.sc {
+  position: absolute;
+  inset: 0;
+  border-radius: 24px;
+  overflow: hidden;
+  border: 8px solid var(--blk);
+  background: var(--wine);
+  box-shadow: 0 15px 40px #00000066;
+  transform: translate(calc(var(--p) * 22px), calc(var(--p) * -16px)) rotate(calc(var(--p) * 3deg));
+  z-index: calc(10 - var(--p));
+  opacity: calc(1 - var(--p) * 0.25);
+  transition: transform 0.6s, opacity 0.6s;
+}
+
+.sc img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hint {
+  color: var(--silver);
+  font-style: italic;
+  font-size: 1rem;
+  margin-top: 1.5rem;
+}
+
 .item {
   border-left: 2px solid var(--red);
   padding: 0 0 1.2rem 1.2rem;
@@ -461,13 +995,13 @@ main {
 }
 
 .item b {
-  font: 500 1.05rem var(--ui);
-  color: #fff;
+  font: 600 1.2rem var(--serif);
+  color: var(--ivory);
 }
 
 .item small {
   display: block;
-  font: 0.9rem var(--ui);
+  font: italic 1.05rem var(--serif);
   color: var(--silver);
 }
 
@@ -476,9 +1010,28 @@ main {
   color: var(--silver);
 }
 
+/* education entries: school logo on the left */
+.item.edu {
+  display: flex;
+  gap: 1.2rem;
+  align-items: flex-start;
+  padding-bottom: 1.8rem;
+}
+
+.sl {
+  flex: none;
+  width: 76px;
+  height: 76px;
+  object-fit: contain;
+  padding: 5px;
+  border-radius: 50%;
+  background: #fff;
+  border: 1px solid var(--line);
+}
+
 
 /* ==========================================================
-   14. PROJECTS PAGE
+   17. PROJECTS PAGE
    ========================================================== */
 .card {
   display: grid;
@@ -491,14 +1044,8 @@ main {
   background: var(--blk);
 }
 
-/* full-width card (design gallery) */
 .card.one {
   display: block;
-}
-
-/* hidden by the filter buttons */
-.card.hide {
-  display: none;
 }
 
 .card ul {
@@ -507,11 +1054,10 @@ main {
 }
 
 .tags {
-  font: 0.9rem var(--ui);
+  font: italic 1.05rem var(--serif);
   color: var(--silver);
 }
 
-/* laptop frame around screenshots and the trailer */
 .laptop {
   background: #050203;
   border: 8px solid #26262a;
@@ -536,70 +1082,202 @@ main {
 
 
 /* ==========================================================
-   15. DESIGN GALLERY AND ENLARGED VIEW
+   18. DESIGN GALLERIES AND ENLARGED VIEW
+   Masonry columns: every photo shows at its own natural size,
+   so photos of different sizes all fit without cropping.
+   .port = graphic design, .long = Figma
    ========================================================== */
 .gallery {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 1rem;
-  margin-top: 1.2rem;
+  margin-top: 1.4rem;
+  column-gap: 1.2rem;
+}
+
+.gallery.port {
+  columns: 220px;
+}
+
+.gallery.long {
+  columns: 340px;
+}
+
+.gallery a {
+  display: block;
+  margin-bottom: 1.2rem;
+  break-inside: avoid;
 }
 
 .gallery img {
   width: 100%;
-  aspect-ratio: 1;
-  object-fit: cover;
-  border-radius: 22px;
+  height: auto;
+  border-radius: 18px;
   cursor: zoom-in;
   background: var(--wine);
   transition: 0.35s;
 }
 
 .gallery img:hover {
-  transform: scale(1.06) rotate(1.5deg);
-  box-shadow: 0 10px 35px #b3122f99;
+  transform: scale(1.03) rotate(0.6deg);
+  box-shadow: 0 10px 35px var(--glow);
 }
 
-/* full-screen popup when you click an image */
 #lb {
   position: fixed;
   inset: 0;
   background: #000e;
   display: none;
-  place-items: center;
-  z-index: 9;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  z-index: 80;
   cursor: zoom-out;
 }
 
 #lb.on {
-  display: grid;
+  display: flex;
 }
 
+/* any photo size fits fully on screen */
 #lb img {
-  max-height: 90vh;
-  border-radius: 16px;
+  max-width: 80vw;
+  max-height: 92vh;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  border-radius: 12px;
+  animation: in 0.4s;
+}
+
+.lb-b {
+  width: 3.4rem;
+  height: 3.4rem;
+  flex: none;
+  border-radius: 50%;
+  border: 1px solid #ffffff55;
+  background: transparent;
+  color: #fff;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: 0.25s;
+}
+
+.lb-b:hover {
+  background: var(--red);
 }
 
 
 /* ==========================================================
-   16. FOOTER
+   19. CONTACT PAGE
+   ========================================================== */
+.contact {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.contact a {
+  display: block;
+  padding: 2.4rem;
+  border-radius: 24px;
+  background: var(--blk);
+  border: 1px solid var(--line);
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.contact a:hover {
+  transform: translateY(-8px) rotate(-1deg);
+  border-color: var(--red);
+  box-shadow: 0 20px 50px var(--glow);
+}
+
+.contact .ic {
+  width: 3rem;
+  height: 3rem;
+  color: var(--red);
+  margin-bottom: 1rem;
+}
+
+.contact small {
+  color: var(--silver);
+  font-size: 1.1rem;
+  word-break: break-all;
+}
+
+
+/* ==========================================================
+   20. FOOTER: plain solid black, no gradient.
+   z-index 2 keeps it above the red mouse glow (section 3),
+   which is what made it look like a gradient before.
+   .ft = calligraphy line, .fs = serif line underneath it
    ========================================================== */
 footer {
+  position: relative;
+  z-index: 2;
   text-align: center;
-  padding: 3rem 5vw;
-  color: var(--silver);
-  font: 0.95rem var(--ui);
-  background: var(--ink);
+  padding: 5rem 5vw 3rem;
+  margin-top: 0;
+  color: #cfcaca;
+  font: 1.05rem var(--serif);
+  background: #000;
   border-top: 1px solid #ffffff1a;
 }
 
-footer a {
-  margin: 0 0.8rem;
+.ft {
+  font: 400 clamp(2.6rem, 6vw, 4rem) / 1.1 var(--script);
+  color: #f6f0f0;
+  text-shadow: 0 0 30px #b3122f99;
+  margin-bottom: 0.6rem;
+}
+
+.fs {
+  font: 1.35rem/1.5 var(--serif);
+  color: #cfcaca;
+  max-width: 44ch;
+  margin: 0 auto 1.8rem;
+}
+
+.icons {
+  display: flex;
+  justify-content: center;
+  gap: 1.2rem;
+  margin-bottom: 2.4rem;
+}
+
+.soc {
+  display: grid;
+  place-items: center;
+  width: 3.6rem;
+  height: 3.6rem;
+  border-radius: 50%;
+  border: 1px solid #ffffff44;
+  color: #f6f0f0;
+  transition: 0.35s;
+}
+
+.soc:hover {
+  background: var(--red);
+  border-color: var(--red);
+  transform: translateY(-6px) rotate(-8deg);
+  box-shadow: 0 10px 30px #b3122f99;
+}
+
+/* footer title: ✦ Vianne | My Portfolio */
+.fl {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.7rem;
+}
+
+footer .lg-n,
+footer .lg-p {
+  color: #cfcaca;
 }
 
 
 /* ==========================================================
-   17. ANIMATIONS
+   21. ANIMATIONS AND TEXT TRANSITIONS
    ========================================================== */
 @keyframes in {
   from {
@@ -614,45 +1292,163 @@ footer a {
   }
 }
 
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ID card without JS: idle sway and hover swing */
+@keyframes sway {
+  0%, 100% {
+    transform: rotate(-4deg);
+  }
+  50% {
+    transform: rotate(4deg);
+  }
+}
+
+@keyframes swing {
+  0%, 100% {
+    transform: rotate(-16deg);
+  }
+  50% {
+    transform: rotate(16deg);
+  }
+}
+
+@keyframes glitch {
+  0%, 92%, 100% {
+    text-shadow: 0 0 30px var(--glow);
+    transform: none;
+  }
+  94% {
+    text-shadow: 4px 0 #ff2a4d, -4px 0 #4de1ff;
+    transform: translateX(3px);
+  }
+  96% {
+    text-shadow: -4px 0 #ff2a4d, 4px 0 #4de1ff;
+    transform: translateX(-3px);
+  }
+}
+
+/* hero title: words rise in one by one */
+.w {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(0.6em);
+  filter: blur(6px);
+  animation: word 0.7s forwards;
+}
+
+@keyframes word {
+  to {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}
+
+/* scroll reveal: hidden until JS adds .show */
+.js .rv {
+  opacity: 0;
+  transform: translateY(28px);
+  filter: blur(5px);
+  transition: opacity 0.9s, transform 0.9s cubic-bezier(.2, .7, .2, 1), filter 0.9s;
+}
+
+.js .rv.show {
+  opacity: 1;
+  transform: none;
+  filter: none;
+}
+
+/* safety net: if script.js fails, show everything after 1.5s */
+.js:not([data-ok]) .rv {
+  animation: safe 0.01s 1.5s forwards;
+}
+
+@keyframes safe {
+  to {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}
+
 
 /* ==========================================================
-   18. ACCESSIBILITY
+   22. ACCESSIBILITY
    ========================================================== */
 :focus-visible {
-  outline: 2px solid var(--silver);
+  outline: 2px solid var(--red);
   outline-offset: 3px;
 }
 
-/* turns off animation for people who prefer less motion */
 @media (prefers-reduced-motion: reduce) {
   * {
     animation: none !important;
     transition: none !important;
   }
+
+  .w,
+  .js .rv {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
 }
 
 
 /* ==========================================================
-   19. MOBILE (screens under 800px wide)
+   23. MOBILE
    ========================================================== */
 @media (max-width: 800px) {
   .hero,
   .about,
   .card,
-  .doors {
+  .do,
+  .contact,
+  #t-blog:checked ~ #tabs #blog {
     grid-template-columns: 1fr;
   }
 
-  .arch {
-    max-width: 300px;
-    margin: auto;
+  .jphoto {
+    position: static;
+    max-width: 320px;
+  }
+
+  .slide {
+    width: 80vw;
   }
 
   .bg {
     top: 0;
   }
 
-  .door {
-    min-height: 200px;
+  .pcard {
+    height: 540px;
+  }
+
+  .search input,
+  .search input:focus {
+    width: 150px;
+  }
+
+  .results {
+    right: auto;
+    left: 0;
+    width: 260px;
+  }
+}
+
+@media (max-width: 600px) {
+  .lg-p {
+    display: none;
+  }
+
+  .nav nav {
+    gap: 1rem;
+    font-size: 1rem;
   }
 }
