@@ -1,0 +1,10 @@
+document.querySelectorAll('a[href$=".html"]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();document.body.classList.add('out');setTimeout(()=>location.href=a.href,280)}));
+addEventListener('pageshow',()=>document.body.classList.remove('out'));
+const on=(g,c,fn)=>g.addEventListener('click',e=>{const b=e.target.closest('.chip');if(!b)return;g.querySelectorAll('.chip').forEach(x=>x.classList.toggle('on',x===b));fn(b)});
+document.querySelectorAll('[data-tabs]').forEach(g=>on(g,0,b=>document.querySelectorAll(g.dataset.tabs+' .panel').forEach(p=>p.classList.toggle('on',p.id===b.dataset.t))));
+document.querySelectorAll('[data-filter]').forEach(g=>on(g,0,b=>document.querySelectorAll('.card').forEach(c=>c.classList.toggle('hide',b.dataset.f!=='all'&&c.dataset.c!==b.dataset.f))));
+const lb=document.getElementById('lb');
+if(lb){document.querySelectorAll('.gallery img').forEach(i=>i.onclick=()=>{lb.firstElementChild.src=i.src;lb.classList.add('on')});
+lb.onclick=()=>lb.classList.remove('on');
+addEventListener('keydown',e=>e.key==='Escape'&&lb.classList.remove('on'))}
+document.querySelectorAll('img').forEach(i=>i.onerror=()=>i.style.opacity=0);

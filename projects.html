@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Projects | Vianne</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Freeman&family=Jost:wght@400;500&family=Miss+Fajardose&family=Sancreek&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="nav">
+  <a class="logo" href="index.html">Vianne</a>
+  <nav><a href="index.html">Home</a><a href="about.html">About</a><a class="on" href="projects.html">Projects</a><a href="about.html#contact">Contact</a></nav>
+</header>
+<main>
+  <h2>Projects</h2>
+  <div class="chips" data-filter>
+    <button class="chip on" data-f="all">All</button>
+    <button class="chip" data-f="dev">Web and games</button>
+    <button class="chip" data-f="design">Design</button>
+  </div>
+
+  <article class="card" data-c="dev">
+    <div>
+      <h3>Stray Animals Management System</h3>
+      <p class="tags">Capstone project. HTML, CSS, PHP, MySQL, UI/UX Design, Front-End Development, Database Design, System Analysis, Testing</p>
+      <ul>
+        <li>Led the project team and managed system documentation, front-end development, UI/UX design, and testing</li>
+        <li>Created and organized system diagrams including ERD, DFD, Use Case Diagram, and other documentation</li>
+      </ul>
+      <a class="btn" href="https://stray-animal-management.web.app/">Visit live site</a>
+    </div>
+    <div class="laptop"><img src="images/stray-animals.png" alt="Stray Animals Management System on a laptop"></div>
+  </article>
+
+  <article class="card" data-c="dev">
+    <div>
+      <h3>Pocket Paws</h3>
+      <p class="tags">Game development. Unity, React, Firebase, HTML, CSS, Game Design, 2D Game Development</p>
+      <ul>
+        <li>Developed the game concept and contributed to game design</li>
+        <li>Created game sprites and implemented player movement in Unity</li>
+        <li>Used React, Firebase, HTML, and CSS as part of the project</li>
+      </ul>
+    </div>
+    <div class="laptop"><video controls preload="metadata" poster="images/pocket-paws-poster.jpg"><source src="images/pocket-paws-trailer.mp4" type="video/mp4"></video></div>
+  </article>
+
+  <section class="card one" data-c="design">
+    <h3>Graphic design and Figma work</h3>
+    <p class="tags">Canva, Kittl, Photoshop, Figma. Click any image to enlarge.</p>
+    <a class="btn" href="graphic-design-portfolio.pdf">Graphic design PDF</a>
+    <a class="btn ghost" href="figma-portfolio.pdf">Figma PDF</a>
+    <div class="gallery">
+      <img src="images/design-1.jpg" alt="Design work 1">
+      <img src="images/design-2.jpg" alt="Design work 2">
+      <img src="images/design-3.jpg" alt="Design work 3">
+      <img src="images/design-4.jpg" alt="Design work 4">
+      <img src="images/design-5.jpg" alt="Design work 5">
+      <img src="images/design-6.jpg" alt="Design work 6">
+    </div>
+  </section>
+</main>
+<div id="lb"><img alt="Enlarged design work"></div>
+<footer>
+  <a href="mailto:vianne05garcia@gmail.com">Email</a><a href="https://www.linkedin.com/in/viannegrca014/">LinkedIn</a><a href="https://github.com/viagrcia">GitHub</a>
+  <p>&copy; 2026 Vianne</p>
+</footer>
+<script src="script.js"></script>
+</body>
+</html>

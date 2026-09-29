@@ -1,0 +1,658 @@
+/* ==========================================================
+   1. COLORS AND FONTS
+   Change colors and fonts here and the whole site updates
+   ========================================================== */
+:root {
+  --ink: #080305;      /* near-black background */
+  --blk: #0e0709;      /* black cards and panels */
+  --wine: #5a0a1a;     /* deep burgundy */
+  --red: #b3122f;      /* bright crimson accent */
+  --silver: #cfcaca;   /* gray text and borders */
+  --ivory: #f6f0f0;    /* white text */
+
+  --head: 'Freeman', sans-serif;           /* big headings */
+  --script: 'Miss Fajardose', cursive;     /* calligraphy name */
+  --west: 'Sancreek', serif;               /* logo */
+  --serif: 'Cormorant Garamond', serif;    /* body text */
+  --ui: 'Jost', sans-serif;                /* buttons, nav, small text */
+}
+
+
+/* ==========================================================
+   2. BASE / RESET
+   ========================================================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+::selection {
+  background: var(--red);
+  color: #fff;
+}
+
+body {
+  background:
+    radial-gradient(ellipse at 15% 0, #7a0f24, transparent 55%),
+    radial-gradient(ellipse at 100% 75%, #5a0a1a, transparent 50%),
+    var(--ink) fixed;
+  color: var(--ivory);
+  font: 1.2rem/1.7 var(--serif);
+  min-height: 100vh;
+  overflow-x: hidden;
+  transition: opacity 0.3s;
+}
+
+/* fades the page out when you click a link */
+body.out {
+  opacity: 0;
+}
+
+a {
+  color: inherit;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+
+/* ==========================================================
+   3. HEADINGS
+   ========================================================== */
+h1,
+h2,
+h3 {
+  font-family: var(--head);
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: 0.02em;
+}
+
+h1 {
+  font-size: clamp(2.6rem, 6.5vw, 5rem);
+}
+
+h2 {
+  font-size: clamp(2.8rem, 7vw, 5rem);
+  margin-bottom: 1.2rem;
+  text-shadow: 4px 4px 0 var(--red);
+}
+
+h3 {
+  font-size: 1.9rem;
+  margin-bottom: 0.5rem;
+}
+
+
+/* ==========================================================
+   4. NAVIGATION BAR
+   ========================================================== */
+.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.9rem 5vw;
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  background: #080305cc;
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid #ffffff1a;
+}
+
+.logo {
+  font: 1.5rem var(--west);
+  text-decoration: none;
+  color: var(--silver);
+}
+
+.nav nav {
+  display: flex;
+  gap: 1.6rem;
+  font: 1rem var(--ui);
+}
+
+.nav nav a {
+  text-decoration: none;
+  color: var(--silver);
+  background: linear-gradient(var(--red), var(--red)) 0 100% / 0 2px no-repeat;
+  padding-bottom: 3px;
+  transition: 0.3s;
+}
+
+/* red underline slides in on hover and on the current page */
+.nav nav a:hover,
+.nav nav a.on {
+  color: #fff;
+  background-size: 100% 2px;
+}
+
+
+/* ==========================================================
+   5. PAGE LAYOUT
+   ========================================================== */
+main {
+  max-width: 1150px;
+  margin: auto;
+  padding: 3rem 5vw;
+}
+
+
+/* ==========================================================
+   6. HOME PAGE: HERO
+   ========================================================== */
+.hero {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1.25fr 1fr;
+  gap: 2rem;
+  align-items: center;
+  min-height: 82vh;
+}
+
+/* giant outlined "PORTFOLIO" word behind everything */
+.bg {
+  position: absolute;
+  left: 50%;
+  top: 6%;
+  transform: translateX(-50%);
+  font: clamp(5rem, 21vw, 17rem) / 1 var(--head);
+  color: transparent;
+  -webkit-text-stroke: 1px #ffffff2e;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+/* hero content fades up when the page loads */
+.hero > * {
+  position: relative;
+  animation: in 0.9s both;
+}
+
+.hero > .arch {
+  animation-delay: 0.25s;
+}
+
+/* "Hello, I am Vianne" in calligraphy */
+.hi {
+  display: block;
+  font: clamp(4rem, 10vw, 7.5rem) / 0.8 var(--script);
+  color: var(--silver);
+  margin-bottom: -0.15em;
+  position: relative;
+  z-index: 2;
+  text-shadow: 0 0 30px #b3122f99;
+}
+
+.hero p {
+  color: var(--silver);
+  margin: 1.4rem 0 1.6rem;
+  max-width: 34ch;
+  font-size: 1.35rem;
+}
+
+
+/* ==========================================================
+   7. PROFILE PHOTO (circle)
+   ========================================================== */
+.arch {
+  border-radius: 50%;
+  overflow: hidden;
+  aspect-ratio: 1;
+  background: linear-gradient(160deg, var(--red), var(--ink));
+  border: 2px solid var(--silver);
+  box-shadow:
+    0 0 0 10px var(--ink),
+    0 0 0 11px var(--red),
+    0 0 90px #b3122f88;
+  transition: transform 0.5s;
+}
+
+.arch:hover {
+  transform: rotate(-3deg) scale(1.04);
+}
+
+.arch img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+}
+
+
+/* ==========================================================
+   8. BUTTONS
+   ========================================================== */
+.btn {
+  display: inline-block;
+  font: 500 1rem var(--ui);
+  padding: 0.85rem 1.9rem;
+  border-radius: 999px;
+  background: var(--red);
+  border: 1px solid var(--red);
+  color: #fff;
+  text-decoration: none;
+  cursor: pointer;
+  transition: 0.25s;
+  margin: 0.3rem 0.3rem 0.3rem 0;
+}
+
+.btn:hover {
+  background: var(--ink);
+  border-color: var(--silver);
+  color: var(--silver);
+  transform: translateY(-3px);
+}
+
+/* black outlined version */
+.btn.ghost {
+  background: #080305;
+  border-color: #ffffff40;
+}
+
+.btn.ghost:hover {
+  background: var(--silver);
+  color: var(--ink);
+}
+
+
+/* ==========================================================
+   9. HOME PAGE: THREE TILES (About / Projects / Contact)
+   ========================================================== */
+.doors {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.2rem;
+  margin: 1rem 0 3rem;
+}
+
+.door {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-height: 280px;
+  padding: 2rem;
+  border-radius: 28px;
+  text-decoration: none;
+  background: var(--blk);
+  transition: 0.35s;
+}
+
+/* tile 1: crimson */
+.door:nth-child(1) {
+  background: linear-gradient(160deg, var(--red), var(--wine));
+}
+
+/* tile 3: white */
+.door:nth-child(3) {
+  background: var(--ivory);
+  color: var(--ink);
+}
+
+.door h3 {
+  font-size: 2.6rem;
+}
+
+.door span {
+  font: 1rem var(--ui);
+  color: var(--silver);
+}
+
+.door:nth-child(3) span {
+  color: #333;
+}
+
+.door:hover {
+  transform: translateY(-8px) rotate(-1deg);
+  box-shadow: 0 20px 50px #b3122f66;
+}
+
+
+/* ==========================================================
+   10. CORNER BRACKETS (on tiles and project cards)
+   ========================================================== */
+.door,
+.card {
+  position: relative;
+  border: 1px solid #ffffff22;
+}
+
+.door::before,
+.card::before,
+.door::after,
+.card::after {
+  content: '';
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border: 1px solid var(--silver);
+  opacity: 0.7;
+  transition: 0.3s;
+  pointer-events: none;
+}
+
+/* top-left corner */
+.door::before,
+.card::before {
+  top: 14px;
+  left: 14px;
+  border-right: 0;
+  border-bottom: 0;
+}
+
+/* bottom-right corner */
+.door::after,
+.card::after {
+  bottom: 14px;
+  right: 14px;
+  border-left: 0;
+  border-top: 0;
+}
+
+/* corners grow on hover */
+.door:hover::before,
+.door:hover::after {
+  width: 34px;
+  height: 34px;
+}
+
+
+/* ==========================================================
+   11. SCROLLING SKILLS TICKER
+   ========================================================== */
+.marq {
+  overflow: hidden;
+  border-block: 1px solid #ffffff26;
+  padding: 0.8rem 0;
+  margin: 2rem -5vw;
+  background: var(--ink);
+}
+
+.marq div {
+  display: flex;
+  gap: 3rem;
+  width: max-content;
+  font: 2rem var(--head);
+  color: var(--silver);
+  animation: m 28s linear infinite;
+}
+
+/* pauses when you hover over it */
+.marq div:hover {
+  animation-play-state: paused;
+}
+
+.marq i {
+  font-style: normal;
+  color: var(--red);
+}
+
+
+/* ==========================================================
+   12. TABS AND FILTER CHIPS
+   ========================================================== */
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin: 1rem 0;
+}
+
+.chip {
+  font: 0.95rem var(--ui);
+  padding: 0.45rem 1.2rem;
+  border-radius: 999px;
+  border: 1px solid #ffffff40;
+  background: var(--ink);
+  color: var(--silver);
+  cursor: pointer;
+  transition: 0.25s;
+}
+
+.chip:hover {
+  border-color: var(--silver);
+}
+
+/* the selected chip */
+.chip.on {
+  background: var(--red);
+  border-color: var(--red);
+  color: #fff;
+}
+
+/* tab content: hidden until its tab is clicked */
+.panel {
+  display: none;
+}
+
+.panel.on {
+  display: block;
+  animation: in 0.4s;
+}
+
+.panel p {
+  margin-bottom: 1rem;
+  max-width: 68ch;
+}
+
+
+/* ==========================================================
+   13. ABOUT PAGE
+   ========================================================== */
+.about {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 3rem;
+  align-items: center;
+}
+
+/* education / experience / skills entries */
+.item {
+  border-left: 2px solid var(--red);
+  padding: 0 0 1.2rem 1.2rem;
+  margin-left: 0.4rem;
+}
+
+.item b {
+  font: 500 1.05rem var(--ui);
+  color: #fff;
+}
+
+.item small {
+  display: block;
+  font: 0.9rem var(--ui);
+  color: var(--silver);
+}
+
+.item ul {
+  margin: 0.4rem 0 0 1.2rem;
+  color: var(--silver);
+}
+
+
+/* ==========================================================
+   14. PROJECTS PAGE
+   ========================================================== */
+.card {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: 2rem;
+  align-items: center;
+  margin: 2rem 0;
+  padding: 2.4rem;
+  border-radius: 26px;
+  background: var(--blk);
+}
+
+/* full-width card (design gallery) */
+.card.one {
+  display: block;
+}
+
+/* hidden by the filter buttons */
+.card.hide {
+  display: none;
+}
+
+.card ul {
+  margin: 0.6rem 0 1rem 1.2rem;
+  color: var(--silver);
+}
+
+.tags {
+  font: 0.9rem var(--ui);
+  color: var(--silver);
+}
+
+/* laptop frame around screenshots and the trailer */
+.laptop {
+  background: #050203;
+  border: 8px solid #26262a;
+  border-bottom-width: 18px;
+  border-radius: 14px 14px 4px 4px;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  box-shadow: 0 25px 60px #b3122f55;
+  transition: transform 0.5s;
+}
+
+.laptop:hover {
+  transform: perspective(900px) rotateX(5deg) scale(1.04);
+}
+
+.laptop img,
+.laptop video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+
+/* ==========================================================
+   15. DESIGN GALLERY AND ENLARGED VIEW
+   ========================================================== */
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-top: 1.2rem;
+}
+
+.gallery img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: 22px;
+  cursor: zoom-in;
+  background: var(--wine);
+  transition: 0.35s;
+}
+
+.gallery img:hover {
+  transform: scale(1.06) rotate(1.5deg);
+  box-shadow: 0 10px 35px #b3122f99;
+}
+
+/* full-screen popup when you click an image */
+#lb {
+  position: fixed;
+  inset: 0;
+  background: #000e;
+  display: none;
+  place-items: center;
+  z-index: 9;
+  cursor: zoom-out;
+}
+
+#lb.on {
+  display: grid;
+}
+
+#lb img {
+  max-height: 90vh;
+  border-radius: 16px;
+}
+
+
+/* ==========================================================
+   16. FOOTER
+   ========================================================== */
+footer {
+  text-align: center;
+  padding: 3rem 5vw;
+  color: var(--silver);
+  font: 0.95rem var(--ui);
+  background: var(--ink);
+  border-top: 1px solid #ffffff1a;
+}
+
+footer a {
+  margin: 0 0.8rem;
+}
+
+
+/* ==========================================================
+   17. ANIMATIONS
+   ========================================================== */
+@keyframes in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+}
+
+@keyframes m {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+
+/* ==========================================================
+   18. ACCESSIBILITY
+   ========================================================== */
+:focus-visible {
+  outline: 2px solid var(--silver);
+  outline-offset: 3px;
+}
+
+/* turns off animation for people who prefer less motion */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+
+/* ==========================================================
+   19. MOBILE (screens under 800px wide)
+   ========================================================== */
+@media (max-width: 800px) {
+  .hero,
+  .about,
+  .card,
+  .doors {
+    grid-template-columns: 1fr;
+  }
+
+  .arch {
+    max-width: 300px;
+    margin: auto;
+  }
+
+  .bg {
+    top: 0;
+  }
+
+  .door {
+    min-height: 200px;
+  }
+}
