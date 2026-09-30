@@ -1,4 +1,3 @@
-
 (() => {
 
   document.documentElement.dataset.ok = '1';   // tells the CSS that this script loaded
@@ -83,21 +82,46 @@
   });
 
 
-  /* ---------- 4. ABOUT: CLICKABLE PHOTO STACK ---------- */
+  /* ---------- 4. ABOUT: CLICKABLE PHOTO STACK ----------
+     Each click slides the front photo away and brings the next one
+     forward. Positions are stored in data-pos (0 = front), and
+     style.css decides how each position looks.
+     Works with a click, a tap, or the Enter / Space keys. */
   run(() => {
     const stack = $('#stack');
     if (!stack) return;
 
-    const cards = [...stack.children];
-    let front = 0;
+    const cards = [...stack.querySelectorAll('.sc')];
+    if (!cards.length) return;
 
-    const place = () => cards.forEach((c, i) =>
-      c.style.setProperty('--p', (i - front + cards.length) % cards.length)
-    );
+    let front = 0;       // which photo is at the front
+    let busy = false;    // stops clicks while a photo is sliding away
 
-    stack.addEventListener('click', () => {
-      front = (front + 1) % cards.length;
-      place();
+    const place = () => cards.forEach((c, i) => {
+      c.dataset.pos = (i - front + cards.length) % cards.length;
+    });
+
+    const next = () => {
+      if (busy) return;
+      busy = true;
+
+      cards[front].classList.add('fly');          // slide the front photo away
+
+      setTimeout(() => {
+        cards[front].classList.remove('fly');     // it returns behind the stack
+        front = (front + 1) % cards.length;
+        place();
+        busy = false;
+      }, 350);
+    };
+
+    stack.addEventListener('click', next);
+
+    stack.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        next();
+      }
     });
 
     place();
@@ -219,7 +243,7 @@
   /* ---------- 8. SEARCH ----------
      To make something searchable, add a line: [title, page, keywords] */
   run(() => {
-        const pages = [
+    const pages = [
       ['About me', 'about.html', 'bachelor information technology student bsit undergraduate resume'],
       ['Education: Bulacan State University', 'about.html', "dean's lister gwa capstone 2023 bulsu"],
       ['Education: Immaculate Conception School of Malolos', 'about.html', 'senior high school honors metropolis icsm'],
@@ -265,7 +289,7 @@
   });
 
 
-    /* ---------- 9. IMAGES: find the right file type, then hide ----------
+  /* ---------- 9. IMAGES: find the right file type, then hide ----------
      If images/figma-1.jpg is missing but figma-1.png (or .jpeg, .webp...)
      exists, the page finds it. Missing files are listed in the console (F12). */
   run(() => {
