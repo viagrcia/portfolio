@@ -767,6 +767,9 @@ html[data-ok] .id:hover {
 
 /* ==========================================================
    13. HOME: WHAT I DO
+   The paragraphs are justified. "hyphens: auto" lets long words
+   break at the line end, so the narrow columns do not leave big
+   gaps between words.
    ========================================================== */
 .do {
   display: grid;
@@ -776,6 +779,10 @@ html[data-ok] .id:hover {
 
 .do .item p {
   color: var(--silver);
+  text-align: justify;
+  text-justify: inter-word;
+  -webkit-hyphens: auto;
+  hyphens: auto;
 }
 
 .end {
@@ -936,6 +943,11 @@ html[data-ok] .id:hover {
 /* ==========================================================
    16. ABOUT PAGE + CLICKABLE PHOTO STACK
    Stack size: change 520px below.
+
+   Each photo has data-pos (0 = front, 1 to 3 = behind).
+   script.js changes data-pos on every click, and the rules
+   below decide where each position sits. The class .fly makes
+   the front photo slide away before it goes to the back.
    ========================================================== */
 .about {
   display: grid;
@@ -959,6 +971,8 @@ html[data-ok] .id:hover {
   aspect-ratio: 3 / 4;
   margin: 0 auto;
   cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .sc {
@@ -969,10 +983,37 @@ html[data-ok] .id:hover {
   border: 8px solid var(--blk);
   background: var(--wine);
   box-shadow: 0 15px 40px #00000066;
-  transform: translate(calc(var(--p) * 22px), calc(var(--p) * -16px)) rotate(calc(var(--p) * 3deg));
-  z-index: calc(10 - var(--p));
-  opacity: calc(1 - var(--p) * 0.25);
-  transition: transform 0.6s, opacity 0.6s;
+  transition: transform 0.6s cubic-bezier(.2, .7, .2, 1), opacity 0.6s;
+}
+
+.sc[data-pos="0"] {
+  z-index: 4;
+  transform: none;
+  opacity: 1;
+}
+
+.sc[data-pos="1"] {
+  z-index: 3;
+  transform: translate(22px, -16px) rotate(3deg);
+  opacity: 0.8;
+}
+
+.sc[data-pos="2"] {
+  z-index: 2;
+  transform: translate(44px, -32px) rotate(6deg);
+  opacity: 0.55;
+}
+
+.sc[data-pos="3"] {
+  z-index: 1;
+  transform: translate(66px, -48px) rotate(9deg);
+  opacity: 0.3;
+}
+
+/* the front photo slides away when clicked */
+.sc.fly {
+  transform: translate(115%, -8%) rotate(14deg);
+  opacity: 0;
 }
 
 .sc img {
