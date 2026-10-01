@@ -1807,10 +1807,17 @@ html {
   }
 
   /* justified text leaves big gaps in narrow columns */
+    /* keep About me justified, with hyphens so the gaps stay small */
   .do .item p,
-  .about p,
   .panel p {
     text-align: left;
+  }
+
+  .about p {
+    text-align: justify;
+    text-justify: inter-word;
+    -webkit-hyphens: auto;
+    hyphens: auto;
   }
 
   /* ----- about ----- */
