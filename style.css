@@ -1642,3 +1642,329 @@ footer .lg-p {
   font-style: italic;
   font-size: 1.05rem;
 }
+
+/* ==========================================================
+   23. MOBILE  (keep this at the VERY BOTTOM of style.css)
+   ========================================================== */
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+/* ---------- tablets ---------- */
+@media (max-width: 1000px) {
+  .do {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* ---------- phones and small tablets ---------- */
+@media (max-width: 800px) {
+
+  body {
+    font-size: 1.1rem;
+    line-height: 1.6;
+  }
+
+  main {
+    padding: 2rem 5vw;
+  }
+
+  .wrap {
+    padding: 2.5rem 5vw;
+  }
+
+  h2 {
+    font-size: 3.4rem;
+    margin-bottom: 1rem;
+  }
+
+  /* every two/three-column layout becomes one column */
+  .hero,
+  .about,
+  .card,
+  .do,
+  .contact,
+  #t-blog:checked ~ #tabs #blog {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  /* ----- navigation: logo + tools on top, links underneath ----- */
+  .nav {
+    padding: 0.5rem 4vw;
+    gap: 0.3rem 1rem;
+  }
+
+  .logo {
+    order: 1;
+    gap: 0.5rem;
+  }
+
+  .tools {
+    order: 2;
+    margin-left: auto;
+    gap: 0.5rem;
+  }
+
+  .nav nav {
+    order: 3;
+    width: 100%;
+    justify-content: space-between;
+    gap: 0.5rem;
+    font-size: 1.05rem;
+  }
+
+  .lg-n {
+    font-size: 2.4rem;
+  }
+
+  .lg-i {
+    font-size: 1.3rem;
+  }
+
+  .nav .lg-p {
+    display: none;
+  }
+
+  /* search results open under the whole nav bar */
+  .search {
+    position: static;
+  }
+
+  .search input,
+  .search input:focus {
+    width: 130px;
+    font-size: 1rem;
+  }
+
+  .results {
+    top: calc(100% + 0.4rem);
+    left: 4vw;
+    right: 4vw;
+    width: auto;
+    max-height: 50vh;
+  }
+
+  /* ----- home: hero ----- */
+  .hero {
+    min-height: 0;
+    gap: 1.5rem;
+  }
+
+  .bg {
+    top: 0;
+    font-size: 6rem;
+  }
+
+  .hi {
+    font-size: 3rem;
+    white-space: normal;
+  }
+
+  .status {
+    font-size: 1rem;
+    border-radius: 18px;
+    padding: 0.4rem 1rem;
+  }
+
+  /* room for the strap, which hangs 80px above the card area */
+  .idwrap {
+    margin-top: 5rem;
+    height: 600px;
+  }
+
+  /* ----- home: gallery, explore cards, what I do ----- */
+  .strip {
+    margin: 2rem 0;
+  }
+
+  .slide {
+    width: 80vw;
+  }
+
+  .pcards {
+    gap: 1rem;
+  }
+
+  .pcard {
+    height: 500px;
+  }
+
+  .pcard div {
+    padding: 1.4rem;
+  }
+
+  .pcard h3 {
+    font-size: 3.4rem;
+  }
+
+  .pcard p {
+    font-size: 1.15rem;
+  }
+
+  .do {
+    gap: 1.4rem;
+  }
+
+  /* justified text leaves big gaps in narrow columns */
+  .do .item p,
+  .about p,
+  .panel p {
+    text-align: left;
+  }
+
+  /* ----- about ----- */
+  .about {
+    gap: 2.5rem;
+  }
+
+  /* smaller stack so the tilted photos stay inside the screen */
+  .stack {
+    width: 78%;
+    margin: 0 auto 0 2%;
+  }
+
+  .tabs {
+    margin-top: 2.5rem;
+  }
+
+  .chip {
+    font-size: 1rem;
+    padding: 0.35rem 1rem;
+  }
+
+  #t-blog:checked ~ #tabs #blog {
+    gap: 1.5rem;
+  }
+
+  .jphoto {
+    position: static;
+    max-width: 320px;
+    margin: 0 auto;
+  }
+
+  .item.edu {
+    gap: 0.8rem;
+  }
+
+  .sl {
+    width: 56px;
+    height: 56px;
+  }
+
+  .certs {
+    margin-top: 3rem;
+  }
+
+  .cgrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+  }
+
+  .cn {
+    font-size: 2.2rem;
+  }
+
+  .cbody {
+    padding: 0.8rem 0.9rem 1rem;
+  }
+
+  .cbody h3 {
+    font-size: 1rem;
+  }
+
+  /* ----- projects ----- */
+  .card {
+    padding: 1.3rem;
+    gap: 1.2rem;
+    margin: 1.4rem 0;
+    border-radius: 20px;
+  }
+
+  .laptop {
+    border-width: 5px;
+    border-bottom-width: 12px;
+  }
+
+  .gallery.port,
+  .gallery.long {
+    columns: 2;
+    column-gap: 0.8rem;
+  }
+
+  .gallery a {
+    margin-bottom: 0.8rem;
+  }
+
+  /* enlarged photo: arrows move to the bottom so they never overflow */
+  #lb img {
+    max-width: 94vw;
+    max-height: 76vh;
+  }
+
+  .lb-b {
+    position: absolute;
+    bottom: 1.2rem;
+  }
+
+  .lb-b[data-d="-1"] {
+    left: calc(50% - 4rem);
+  }
+
+  .lb-b[data-d="1"] {
+    left: calc(50% + 0.6rem);
+  }
+
+  /* ----- contact ----- */
+  .contact a {
+    padding: 1.5rem;
+  }
+
+  .contact .ic {
+    width: 2.4rem;
+    height: 2.4rem;
+  }
+
+  /* ----- footer ----- */
+  footer {
+    padding: 3.5rem 5vw 2.5rem;
+  }
+
+  .fs {
+    font-size: 1.15rem;
+  }
+
+  .icons {
+    margin-bottom: 1.8rem;
+  }
+}
+
+/* ---------- small phones ---------- */
+@media (max-width: 420px) {
+  .hi {
+    font-size: 2.6rem;
+  }
+
+  .search input,
+  .search input:focus {
+    width: 110px;
+  }
+
+  .nav nav {
+    font-size: 1rem;
+  }
+}
+
+/* ---------- touch screens: no stuck hover effects after a tap ---------- */
+@media (hover: none) {
+  .pcard:hover,
+  .cert:hover,
+  .contact a:hover,
+  .btn:hover,
+  .soc:hover,
+  .theme:hover,
+  .laptop:hover,
+  .gallery img:hover {
+    transform: none;
+  }
+}
