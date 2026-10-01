@@ -262,6 +262,8 @@
       ['Game development', 'index.html', 'what i do unity 2d 3d games'],
       ['System analysis and documentation', 'index.html', 'what i do erd dfd use case diagram requirements planning'],
       ['Front-end development', 'index.html', 'what i do html css ui ux interface'],
+      ['Certifications', 'about.html#certs', 'certificates cisco networking academy salesforce agentblazer training courses'],
+      ['Open to internship and OJT', 'index.html', 'status available hire internship ojt opportunities'],
       ['Contact', 'contact.html', 'email linkedin github hello reach']
     ];
 
